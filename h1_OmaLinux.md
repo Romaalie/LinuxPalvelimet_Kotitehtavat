@@ -13,17 +13,11 @@ Tämän lisäksi kirjoitin pienen tiivistelmän ranskalaisilla viivoilla aiheist
       -Kunnia sinne minne kunnia kuuluu ja muiden tekemät virheet ovat myös muiden tekemiä vaikka sinä niitä toistaisit eli muista lähdeviittaukset!
       -Pitäisi kuulua ihan kaikkien perusarvoihin, mutta älä valehtele tuottamassasi sisällössä.
 
-      Tämä tiivistelmä perustuu Tero Karvisen ohjeisiin raportin kirjoittamisesta (https://terokarvinen.com/2006/raportin-kirjoittaminen-4/).
+      Tämä tiivistelmä perustuu Tero Karvisen ohjeisiin raportin kirjoittamisesta (https://terokarvinen.com/2006/raportin-kirjoittaminen-4/).    
     
-    
-    ### Lorem ipsum dolor sit amet
-      - Lorem ipsum dolor sit amet
-      - Lorem ipsum dolor sit amet
-      - Lorem ipsum dolor sit amet
-      - Lorem ipsum dolor sit amet
-      
-
-
+    ### Ilmainen softa a la Free Software Foundation
+      - Paremmin käännettynä ehkäpä vapaa kuin ilmainen softa. Free softwarella voi tehdä rahaa.
+      - Perustuu ideologiaan, että käyttäjillä on oikeus suorittaa, kopioida, jakaa ja muokata softaa ilman erillistä lupaa ja ilmaiseksi.
       (https://www.gnu.org/philosophy/free-sw.html)
 
 
@@ -67,4 +61,4 @@ Tämän lisäksi kirjoitin pienen tiivistelmän ranskalaisilla viivoilla aiheist
     //KUVANKAAPPAUS
 
     Jatkoin ohjeiden seuraamista ja kokeilin nettiselaimen avulla hiiren, näppäimistön, netin ja näytön toimivuudet. Tämän jälkeen siirryin asentamaan debiania, ohjeita noudattaen tietysti ja asennus sujui ongelmitta. Taustalla pyöri mahdollisesti jotain error viestejä, mutta lopulta kone boottasi itsensä login ruutuun ja pääsin kirjautumaan sisään.
-    Ohjeiden avulla sain päivitettyä kaiken ja asennettua ja käynnistettyä palomuurin. Ohjeita seuraamalla asensin myös Guest Additionit, jotka mahdollistivat suuremmat resoluutiot sekä leikepöydän käytön hostin ja virtuaalikoneen välillä. Olipa seikkailu näin Linux aloittelijalle!
+    Ohjeiden avulla sain päivitettyä kaiken ja asennettua ja käynnistettyä palomuurin. Ohjeita seuraamalla asensin myös Guest Additionit, jotka mahdollistivat suuremmat resoluutiot sekä leikepöydän käytön hostin ja virtuaalikoneen välillä. Olipa seikkailu näin Linux aloittelijalle! Seuraavassa raportissa voisikin perehtyä tämän tiedoston muotoiluun hieman enemmän, jos aika riittää.
