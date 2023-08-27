@@ -63,7 +63,7 @@ Tämän lisäksi kirjoitin pienen tiivistelmän ranskalaisilla viivoilla aiheist
 
   Valitsin vaihtoehdon Live System (amd64) ja lopulta Linux aukeni minulle.
 
- [Linux auki](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/Linux%20auki.JPG)
+ ![Linux auki](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/Linux%20auki.JPG)
 
   Jatkoin ohjeiden seuraamista ja kokeilin nettiselaimen avulla hiiren, näppäimistön, netin ja näytön toimivuudet. Tämän jälkeen siirryin asentamaan debiania, ohjeita noudattaen tietysti ~~ja asennus sujui ongelmitta~~. Heti alkuun tuli viestiä untrusted application launcherista, mutta klikkasin vain Launch anyway ja homma jatkui.
 
