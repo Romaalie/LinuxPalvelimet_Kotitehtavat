@@ -49,11 +49,22 @@ Tämän lisäksi kirjoitin pienen tiivistelmän ranskalaisilla viivoilla aiheist
 
     //MUISTA KUVANKAAPPAUKSET 2KPL
 
-     Kun jatkoin ohjeita eteenpäin ja yritin käynnistää virtuaalikoneeni DebianAliRomarCom, Bootloaderi ei käynnistynyt odotusten mukaisesti vaan tuotti seuraavanlaisen virheen:
+    Kun jatkoin ohjeita eteenpäin ja yritin käynnistää virtuaalikoneeni DebianAliRomarCom, Bootloaderi ei käynnistynyt odotusten mukaisesti vaan tuotti seuraavanlaisen virheen:
 
-     //KUVANKAAPPAUS
+    //KUVANKAAPPAUS
 
-     
+    Tästä virheestä päättelin, että oli poissa päältä BIOSssa/UEFIssa. Tutkin asiaa erinäisiltä sivuilta internetistä (https://support.bluestacks.com/hc/en-us/articles/360058102252-How-to-enable-Virtualization-VT-on-Windows-10-for-BlueStacks-5, Q2. How can I check if Virtualization is enabled/disabled on my desktop/laptop?) ja päädyin tarkistamaan tehtävienhallinnasta onko minulla virtualisointi ylipäätänsä mahdollistettu. Ei ollut.
     
-    
-    
+    //KUVANKAAPPAUS
+
+    Selvitin internetin ihmemaailmasta (https://www.msi.com/faq/nb-1627) mikä asetus piti laittaa päälle BIOSISTA/UEFISTA (AMD SVM) ja toteutin korjauksen.
+    Palasin ohjeissa kohtaan "Boot to Desktop - Choose to Live" ja käynnistin virtuaalikoneeni kaksoisklikkauksella. Kone lähti käyntiin, mutta ohjeiden kaltaista bootloaderia ei minulle ilmestynyt joten klikkasin VirtualBox Managerissa Show-nappulaa ja seuraava ruutu avautui minulle.
+
+    //KUVANKAAPPAUS
+
+    Valitsin vaihtoehdon Live System (amd64).
+
+    //KUVANKAAPPAUS
+
+    Jatkoin ohjeiden seuraamista ja kokeilin nettiselaimen avulla hiiren, näppäimistön, netin ja näytön toimivuudet. Tämän jälkeen siirryin asentamaan debiania, ohjeita noudattaen tietysti ja asennus sujui ongelmitta. Taustalla pyöri mahdollisesti jotain error viestejä, mutta lopulta kone boottasi itsensä login ruutuun ja pääsin kirjautumaan sisään.
+    Ohjeiden avulla sain päivitettyä kaiken ja asennettua ja käynnistettyä palomuurin. Ohjeita seuraamalla asensin myös Guest Additionit, jotka mahdollistivat suuremmat resoluutiot sekä leikepöydän käytön hostin ja virtuaalikoneen välillä. Olipa seikkailu näin Linux aloittelijalle!
