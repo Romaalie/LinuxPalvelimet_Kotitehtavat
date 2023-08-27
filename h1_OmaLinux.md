@@ -45,7 +45,7 @@ Tämän lisäksi kirjoitin pienen tiivistelmän ranskalaisilla viivoilla aiheist
 
     Kun jatkoin ohjeita eteenpäin ja yritin käynnistää virtuaalikoneeni DebianAliRomarCom, Bootloaderi ei käynnistynyt odotusten mukaisesti vaan tuotti seuraavanlaisen virheen:
 
-    //KUVANKAAPPAUS
+    ![AMD-V disabled in BIOS](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/8d7a1f98-7159-4355-bbf2-e49526c5239e)
 
     Tästä virheestä päättelin, että oli poissa päältä BIOSssa/UEFIssa. Tutkin asiaa erinäisiltä sivuilta internetistä (https://support.bluestacks.com/hc/en-us/articles/360058102252-How-to-enable-Virtualization-VT-on-Windows-10-for-BlueStacks-5, Q2. How can I check if Virtualization is enabled/disabled on my desktop/laptop?) ja päädyin tarkistamaan tehtävienhallinnasta onko minulla virtualisointi ylipäätänsä mahdollistettu. Ei ollut.
     
