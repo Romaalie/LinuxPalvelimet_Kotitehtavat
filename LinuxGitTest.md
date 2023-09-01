@@ -1,0 +1,1 @@
+Testitiedosto projektin kloonaamiseksi Linux virtuaalikoneeseen.
