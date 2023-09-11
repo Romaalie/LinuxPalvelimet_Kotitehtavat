@@ -60,7 +60,40 @@ Tätä tehtävää tehdessäni tutustuin tarkemmin "[tee](https://linuxize.com/p
 
 ## d) Käyttäjän kotisivujen käyttöönotto ja käyttöoikeuksien antaminen normaalille käyttäjälle
 
+Hyödynsin tässä tehtävässä aiemmin kohdassa x) tiivistämääni Karvisen artikkelia käyttäjän kotisivujen käyttöönotosta. Aloitin uuden päivän virtuaalikoneessani terminaalikomennolla "sudo apt-get update", jonka jälkeen syötin komennot "sudo a2enmod userdir" sekä "sudo systemctl restart apache2".
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/17950c83-4669-4631-8b6f-1269ba8c0f45)
 
+Testatakseni toimivatko syöttämäni komennot halutulla tavalla, minun tuli ensin luoda omaan kotihakemistooni (/home/alir) uusi kansio, joka onnistui komennolla "mkdir public_html". Tarkistin "ls" komennolla, että uusi kansio oli ilmestynyt. Tämän jälkeen varmistin komennolla "whoami" käytössä olevan kirjautumistunnukseni (alir). Sitten avasin firefoxilla juuri luomani "kotisivun" komennolla "firefox "http://localhost/~alir"".
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/81605b23-186f-4262-933b-cf1b158deb5e)
 
+Toimii.
+
+Varmistin kuitenkin vielä, että käyttäjällä oli tarpeeksi oikeuksia juuri luodussa public_html kansiossa. Syötin komennon "stat public_html" kun olin kotihakemistossani /home/alir, jonne olin kyseisen public_html kansion luonut.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/6af5b951-e8e1-437a-a7ab-7d44a7ecefe6)
+
+Kohdasta "Access: (0755/drwxr-xr-x) minulle selvisi, että käyttäjällä oli kansioon täydet oikeudet, käyttäjän ryhmällä oli oikeudet lukea ja suorittaa, muilla oli oikeudet vain suorittaa.
+
+## e) Validin HTML5 sivun luominen
+
+Yritin ensin siirtää Johdanto Digitaalisiin palveluihin kurssille tekemääni sivustoa virtuaalikoneelle koska kyseinen sivusto oli jo valmiiksi validoitu, mutta jostain syystä en saanut kuvien siirtoa toimimaan virtuaalikoneen ja oman koneeni välillä, joten päädyin käyttämään Karvisen tehtävänannon vinkeissä olevaa lyhyttä [sivua](https://terokarvinen.com/2012/short-html5-page/). Loin aiemmassa tehtävässä tekemääni public_html kansioon microlla tiedoston index.html ja kopioin Karvisen lyhyen koodipätkän tiedostoon. Tallensin ja suljin tiedoston. Avasin firefoxilla localhostin aiempien tehtäväkohtien tyyliin eli testasin ratkaisuni toimivuutta:
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/9ecf6e34-fb82-4ee9-befd-8fb243269809)
+
+Toimi.
+
+Olisin tässä vaiheessa voinut vielä selvittää miten voisin validoida validator.w3.org. sivulla kyseisen sivun, mutta minulla ei ollut aikaa selvittää kuinka saisin tehtyä sen virtuaalikoneessa (julkinen ip jne..), joten jätin sen tekemättä.
+
+## f) Curl komento
+
+Tutustuin curl komentoon kahden eri nettisivun avulla: [1](https://phoenixnap.com/kb/curl-command), [2](https://linuxize.com/post/curl-command-examples/). Ymmärtääkseni siis curlia käytetään datan siirtämiseen eri verkkoprotokollia hyödyntäen. Yksinkertainen tapa käyttää curlia on syöttää "curl _Nettisivu_", jolloin curl palauttaa sivun lähdekoodin.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e859e9ed-3957-4c94-a395-26cae31e4aa6)
+
+Tehtävänannossa minulle tuotti ongelmia saada selvää oliko seuraavaksi pyydetty komento curl -I vai curl -l. Lopulta päädyin komentoon curl -I, sillä se oli noista kahdesta se komento, joka tuotti erilaisen tuloksen ja sitä oli mielestäni järkevämpi lähteä analysoimaan, joskaan en tehnyt sitä kovin menestyksekkäästi. Aiemmin ilmoittamiltani apusivuilta selvisi, että tämä komento hakee HTTP headerit, mutta tämä ei minulle selventänyt yhtään sen enempää tilannetta kuin eteeni ilmestynyt tekstivirta.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/8bd83535-0666-4ec6-bf9a-b06f058b97f6)
+
+Eli en osannut kertoa tästä listauksesta käytännössä yhtään mitään hyödyllistä. Oletan, että siinä listataan jotain hakemani example.com sivuston tietoja. Yritin lueskella [lisätietoja](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers), mutta tämä ei avannut asiaa minulle juurikaan enempää.
