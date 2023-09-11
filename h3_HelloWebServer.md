@@ -64,7 +64,7 @@ Hyödynsin tässä tehtävässä aiemmin kohdassa x) tiivistämääni Karvisen a
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/17950c83-4669-4631-8b6f-1269ba8c0f45)
 
-Testatakseni toimivatko syöttämäni komennot halutulla tavalla, minun tuli ensin luoda omaan kotihakemistooni (/home/alir) uusi kansio, joka onnistui komennolla "mkdir public_html". Tarkistin "ls" komennolla, että uusi kansio oli ilmestynyt. Tämän jälkeen varmistin komennolla "whoami" käytössä olevan kirjautumistunnukseni (alir). Sitten avasin firefoxilla juuri luomani "kotisivun" komennolla "firefox "http://localhost/~alir"".
+Testatakseni toimivatko syöttämäni komennot halutulla tavalla, minun tuli ensin luoda omaan kotihakemistooni (/home/alir) uusi kansio, joka onnistui komennolla "mkdir public_html". Tarkistin "ls" komennolla, että uusi kansio oli ilmestynyt. Tämän jälkeen varmistin komennolla "whoami" käytössä olevan kirjautumistunnukseni (alir). Sitten avasin firefoxilla juuri luomani "kotisivun" komennolla "firefox http:<a>//localhost/~alir".
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/81605b23-186f-4262-933b-cf1b158deb5e)
 
