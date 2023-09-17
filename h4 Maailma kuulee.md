@@ -5,8 +5,8 @@ Tässä raportissa tutustuin ensin Tero Karvisen artikkeliin yksityisen virtuaal
 
 ## x) Tiivistelmä Tero Karvisen artikkelista [First Steps on a New Virtual Private Server – an Example on DigitalOcean and Ubuntu 16.04 LTS](https://terokarvinen.com/2017/first-steps-on-a-new-virtual-private-server-an-example-on-digitalocean/ "Karvisen näppärä artikkeli")
 
-Tärkein pointti koko artikkelissa oli hyvät salasanat. Käytä aina pelkästään hyviä salasanoja.
-Artikkeli käsitteli oman serverin pystyyn laittamista vuokraamalla pilvipalvelusta virtuaalikone. Aihe oli minulle sen verran ajankohtainen ja halusin selventää sitä itselleni, joten tiivistelmästä ei tullut kovin tiivis.
+Tärkein pointti koko artikkelissa oli hyvät salasanat. Käytä aina pelkästään hyviä salasanoja.  
+Käytännössä artikkeli käsitteli oman serverin pystyyn laittamista vuokraamalla pilvipalvelusta virtuaalikone. Aihe oli minulle sen verran ajankohtainen ja halusin selventää sitä itselleni, joten tiivistelmästä ei tullut kovin tiivis.
 
 - Luo tili jollekin palveluntarjoajalle, tässä voi hyödyntää erilaisia tutustumistarjouksia tai GitHub Education student pakettia.
   - Valitse datakeskuksen sijainti mahdollisten asiakkaidesi mukaan. Ei serveriä japanista jos asiakkaasi ovat euroopassa.
@@ -92,7 +92,7 @@ En reagoinut tähän ilmoitukseen mitenkään vaan jatkoin työtäni eteenpäin 
 
 Tämän jälkeen tarkoituksenani oli lukita kirjautuminen root tilillä. Käytin tähän komentoa `sudo usermod --lock root`. Kyseinen komento käyttää sudo oikeuksia muokkaamaan käyttäjän tiliä. Tässä tapauksessa sillä lukittiin (--lock tai -L) käyttäjän salasana lisäämällä salakirjoitetun salasanan eteen ! (lähde: man usermod).
 
-Seuraavaksi seurasin Karvisen artikkelin ohjeita ja editoin root käyttäjän oikeuksia muodostaa ssh yhteys: `sudoedit /etc/ssh/sshd_config`.
+Seuraavaksi seurasin [Karvisen artikkelin](https://terokarvinen.com/2017/first-steps-on-a-new-virtual-private-server-an-example-on-digitalocean/ "aiemmin tiivistetty artikkeli") ohjeita ja editoin root käyttäjän oikeuksia muodostaa ssh yhteys: `sudoedit /etc/ssh/sshd_config`.
 Kyseiseen tiedostoon piti lisätä rivi "PermitRootLogin no". Tai ainakin oletin, että rivi piti lisätä, koska en sellaista sieltä valmiina löytänyt edes pois toiminnasta kommentoituna.
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/3a07aff1-e657-4797-84fb-9526a41ac211)
@@ -107,11 +107,13 @@ Yritin vielä kirjautua ssh yhteydellä uudestaan sisään rootina eikä se onni
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/135d507f-1f9c-4818-bbdf-65baca45c845)
 
-sudo apt-get update; sudo apt-get dist-upgrade; sudo systemctl reboot
+Lopuksi päätin suorittaa vielä [tehtävänannon vinkeissä](https://terokarvinen.com/2023/linux-palvelimet-2023-alkusyksy/ "Karvinen, h4 Maailma kuulee; vinkit") mainitut komennot
+
+`sudo apt-get update`, `sudo apt-get dist-upgrade` ja `sudo systemctl reboot`. dist-upgrade komennosta luin lisää [täältä](https://itsfoss.com/apt-get-upgrade-vs-dist-upgrade/ "itsfoss artikkeli"). Päivitysten jälkeen reboot komento käynnisti järjestelmän uudestaan ja luonnollisesti sulki ssh yheyteni palvelimeen.
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/3eed227c-8285-4483-8ca3-4847c960e86e)
 
-![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a93f3c89-a44b-4f93-ad3b-284992c59dc2)
+Päätin heti yhteyden suljettua ottaa yhteyttä uudestaan, mutta palvelin ei ilmeisesti ollut ehtinyt käynnistyä uudelleen. Odottelin noin 30 sekuntia kunnes kokeilin syöttää komentoriville komennon `echo $`, joka näytti tyhjää, kokeillakseni oliko virtuaalikoneeni kaatunut. Sitten tappoin yhteydenotto ohjelman painamalla ctrl+C. Kokeilin noin minuutin päästä uudelleen ja sain etäyhteyden muodostettua uudelleen.
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/96650f17-fe35-4887-8f77-658cbb9b17bb)
 
@@ -121,14 +123,38 @@ sudo apt-get update; sudo apt-get dist-upgrade; sudo systemctl reboot
 Nyt oli tarkoitus pistää tälle uudelle linode virtuaalikoneelle apache2 weppipalvelin pyörimään, korvata testisivu ja varmistaa, että se näkyy julkisesti. Mieluusti myös eri laitteilla. Aloitin asentamalla apache2: `sudo apt-get install apache2`. Sitten tein apache2:lle reiän palomuuriin: `sudo ufw allow 80/tcp`.  
 Tarkistin komennolla `sudo ufw status` palomuurin nykyisen tilan ja säännöt. Palomuuri oli päällä ja siellä oli sallimani reiät ssh yhteydelle ja apache2:lle.
 
-![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/7f8a9f55-a0c3-4096-9020-0ed682087949)
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/7f8a9f55-a0c3-4096-9020-0ed682087949)  
 
+Tämän jälkeen seurasin [aiemman kotitehtävän artikkelin ohjeita](https://terokarvinen.com/2008/05/02/install-apache-web-server-on-ubuntu-4/) ja varmistin vielä komennolla `ip addr` linode koneen ip-osoitteen. Kyllä, se oli sama mikä aiemminkin oli tullut ilmi ssh yhteyden muodostamisessa.  
+Käynnistin komennolla `sudo a2enmod userdir` apache2:n käyttäjäsivut, joskin sain outoja varoituksia.  
 
-_Seuraa vanhoja ohjeita._
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a2eb6ffc-148f-4458-b8c9-95b2dbeb749c)  
+
+Jos ymmärsin oikein niin jostain asetuksista puuttui kielen määrittäminen, joten käyttöön otettiin englanti. Ymmärtääkseni kuitenkin komentoni suoritettiin onnistuneesti.  
+Käynnistin tämän jälkeen apache2 demonin uudelleen komennolla `sudo systemctl restart apache2`, kuten ohjetekstissäkin kehotettiin tekemään.  
+Loin seuraavaksi käyttäjäni kotikansioon hakemiston public_html ja varmistin, että se oli oikean käyttäjän kotikansiossa. Aikeenani oli tehdä ali käyttäjälle jonkinlaiset omat nettisivut.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/712b4213-31ab-4777-bfed-238c8714bd35)  
+
+Tässä kohtaa kuitenkin väsymys iski ja koin helpoimmaksi vain tehdä nopea muutos apachen testisivulle komennolla `echo TestisivunMuutosHAhaHaHHaahaa|sudo tee /var/www/html/index.html`.  
+Kävin kokeilemassa muutoksen toimivuutta virtuaalikoneeni (ei linode) firefox selaimella sekä kännykkäni selaimella. Molemmat toimivat.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/1a258476-3605-4494-8f8d-306093908ae1)  
+
+_Tee tähän vielä omat kotisivut jos jaksat_
+
+## d) Lokien tutkiminen
+
+_Tutki lokeja ja etsi tunkeutujia_
+
 
 ## **Lähteet**
 
-Tero Karvinen. First Steps on a New Virtual Private Server – an Example on DigitalOcean and Ubuntu 16.04 LTS. Luettavissa: https://terokarvinen.com/2017/first-steps-on-a-new-virtual-private-server-an-example-on-digitalocean/ Luettu 17.9.2023
+Tero Karvinen. First Steps on a New Virtual Private Server – an Example on DigitalOcean and Ubuntu 16.04 LTS. Luettavissa: https://terokarvinen.com/2017/first-steps-on-a-new-virtual-private-server-an-example-on-digitalocean/  
+Luettu 17.9.2023
 
-freecodecamp. sudo apt-get update vs upgrade – What is the Difference?. Luettavissa: https://www.freecodecamp.org/news/sudo-apt-get-update-vs-upgrade-what-is-the-difference/ Luettu 17.9.2023
+freecodecamp. sudo apt-get update vs upgrade – What is the Difference?. Luettavissa: https://www.freecodecamp.org/news/sudo-apt-get-update-vs-upgrade-what-is-the-difference/  
+Luettu 17.9.2023
 
+IT'S FOSS. What's the difference between apt-get upgrade vs dist-upgrade? Luettavissa: https://itsfoss.com/apt-get-upgrade-vs-dist-upgrade/  
+Luettu 17.9.2023
