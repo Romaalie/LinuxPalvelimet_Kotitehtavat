@@ -141,12 +141,61 @@ Kävin kokeilemassa muutoksen toimivuutta virtuaalikoneeni (ei linode) firefox s
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/1a258476-3605-4494-8f8d-306093908ae1)  
 
-_Tee tähän vielä omat kotisivut jos jaksat_
+Tässä välissä ehti vaihtua päivä ja raportin kirjoittaminen jatkui. Käynnistin virtuaalikoneet (`ssh ali@172.104.145.15`) ja ajoin niillä komennot `sudo apt-get update`.  
+Tämän jälkeen teki mieli vaihtaa terminaalissa näkyvä komentokehotteen "ali@localhost" joksikin selvemmäksi, joten seuraten [linuxconfigin ohjeita](https://linuxconfig.org/how-to-change-hostname-on-linux "hostnamen vaihto ohjeet") ja pikaisen manuaalin vilkaisun avulla (`man hostnamectl`) aloin vaihtamaan koneen nimeä nodeli:ksi. Tässä välissä `man` valitti myös jo aiemmin esiin tulleista locale asetuksista. Yritin niitä hiukan tutkia [stackexchangesta](https://unix.stackexchange.com/questions/87116/what-do-i-need-to-do-with-man-cant-set-the-locale-make-sure-lc-and-lang), mutta en sen enempää perehtynyt asiaan tai tehnyt sille mitään.
 
-## d) Lokien tutkiminen
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a6dd245e-5303-4a69-824b-a69f81d117c4)  
 
-_Tutki lokeja ja etsi tunkeutujia_
+No, onnistuin vaihtamaan hostnamen, mutta silti terminaalini näytti ali@localhost, joten annoin asian olla ja palasin tehtävän pariin.  
+Navigoin käyttäjän ali kotihakemistoon  ja siellä public_html kansioon, johon loin nano tekstieditorilla index.html tiedoston (`nano index.html`). Kopioin [Karvisen testisivun](https://terokarvinen.com/2012/short-html5-page/ "koodi") koodin ja huomasin, että ääkköset eivät toimineet. Nyt taisi olla aika selvittää lisää sitä locale lang ongelma.  
 
+[archlinuxin avulla](https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration "archlinux keyboard configuration") aloin tutkimaan ongelmaa. `localectl status` näytti minulle nykyisen virtuaalinäppäimistöni asetuksia ja sieltä löytyikin seuraavaa  
+"System Locale: LANG=en_US.UTF-8
+    VC Keymap: (unset)         
+   X11 Layout: us
+    X11 Model: pc105"  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/65bb8c25-8b3d-41a0-aa9f-24e947fdb24e)  
+
+Tämän jälkeen yritin kaikenlaista [archlinuxin ohjeista](https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration "archlinux keyboard configuration"), mutta en saanut tehtyä mitään merkityksellistä kieliasetusten suhteen.  
+
+Palasin alkuperäiseen suunnitelmaani tehdä käyttäjän kotisivut ja suunnistin ali käyttäjän kotihakemistoon, jonne olin luonut public_html ja index.html tiedoston. Sen jälkeen yritin ei linode virtuaalikoneellani päästä kyseiselle sivulle `firefox http://172.104.145.15/~ali`.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/ce0627c2-5975-4536-bfe0-41b07d22fb5b)
+
+Pääsy evätty. prkl... Tarkistin linode koneella kansion oikeudet `stat public_html/` ja oikeudet näyttivät hyviltä "Access: (0755/drwxr-xr-x)" eli viimeinen -x, myös muilla käyttäjillä piti olla oikeus suorittaa. Kokeilin vielä `curl` komennolla mitä vastasivat ip sekä oma käyttäjäsivuni ~ali. Apachen muokattu testisivu näytti hyvältä, mutta oma käyttäjäsivuni antoi vieläkin error 403.
+Varmistin vielä olevani oikeassa paikassa, eli käyttäjäni kotikansiossa /home/ali/.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/6701ddfe-c3a4-4fdc-acea-fec6b601cddd)  
+
+Yritin vielä eri komennoilla saada oikeuksia oikein, mutta en saanut selville missä oli vika:  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/cbc779fc-db39-4142-8bc3-51953e0b1559)  
+
+Päätin olevani valmis tämän tehtäväosion kanssa ja siirryin lokien tulkitsemiseen.  
+
+
+## d) Lokien tutkiminen  
+
+Aloitin lukemalla Karvisen tehtävänannon vinkeistä komentoja `journalctl -n 2000` ja `journalctrl --since today`. Näistä löysin lisätietoa komennolla `man journalctl`. Syötin manuaalia lueskeltuani `journalctl -n 2000` ja eteeni pamahti 2000 viimeisintä lokimerkintää listattuna vanhimmasta uusimpaan. Heti ensimmäisenä edessäni komeili lokeja, jotka ilmaisivat epäonnistuneita root salasanan yrityksiä ssh2 yhteydellä.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/06167547-d1cf-4488-918b-44ddfb570c41)
+
+Lokimerkinnöissä listataan ensin kuukausi, päivä ja seuraavaksi kellonaika. Kellonajan aikavyöhykkeestä en ole varma. [Linux handbookin mukaan](https://linuxhandbook.com/journalctl-command/ "journalctl ohje") aikavyöhykkeenä on oletuksena järjestelmän paikallinen aika. Varmistin tämän syöttämällä komennon `date` ja vertaamalla annettuja arvoja oman pöytäkoneeni arvoihin, vaikka tulosteessakin jo mainittiin ajan olevan UTC eli kolme tuntia omaa aikaani jäljessä. 
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/555a0f5e-4cbf-49ec-89be-76a72e7f8244)  
+
+
+Seuraavaksi kirjauksena oli localhost eli sen koneen nimi ja prosessi (sshd[2072]; sshd on OpenSSH palvelinprosessi, josta voit lukea lisää [täältä](https://www.ssh.com/academy/ssh/sshd "ssh.com sshd - SSH server process")), joka lokiin oli tehnyt kirjauksen. Seuraavaksi oli itse tämän prosessin tekemä kirjaus. Lisätietoja kohdasta pam_unix voi lukea [täältä](https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-pam.html "suse.com; pluggable authentication modules"). Ymmärtääkseni se on jonkinlainen modulaarinen todennusprosessi, jota voidaan käyttää osana tietoturvaratkaisuja. "authentication failure" kertoo, että käyttäjän todentaminen epäonnistui. Loppurivi listaa käyttäjän tietoja (mm. user=root), yhteyden tyyppiä (tty=ssh).  
+Seuraavat rivit kertovat, että root käyttäjälle on yritetty syöttää virheellinen salasana ip osoitteesta 180.101.88.247 portissa 13518 käyttäen ssh2 yhteyttä. Tämä on toistunut kolme kertaa, jonka jälkeen yhteys on katkennut.  
+
+Aiempien kirjautumisyritysten lisäksi lokissa oli runsaasti kernelin kirjauksia, joissa palomuuri oli ilmeisesti yrittänyt estää jotain yhteyksiä.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/80320478-419e-4a2d-a852-7f0a4f64d016)  
+
+Yritin etsiä lisää tietoja ja löysinkin hyödyllisen oloisen [keskustelun pätkän askubuntusta](https://askubuntu.com/questions/1116145/understanding-ufw-log "askubuntu, Understanding UFW log"). Se mitä itse sain irti tämän keskustelun selityksestä oli tosiaan, että palomuuri oli automaattisesti estänyt jonkinlaisen yhteyden. Ei järin hyödyllistä, mutta enpä ole ammattilainen.  
+
+Tämän tarkempia tietoja lokeista en osaa kertoa.  
 
 ## **Lähteet**
 
@@ -157,4 +206,19 @@ freecodecamp. sudo apt-get update vs upgrade – What is the Difference?. Luetta
 Luettu 17.9.2023
 
 IT'S FOSS. What's the difference between apt-get upgrade vs dist-upgrade? Luettavissa: https://itsfoss.com/apt-get-upgrade-vs-dist-upgrade/  
-Luettu 17.9.2023
+Luettu 17.9.2023  
+
+Linuxconfig. How to change hostname on Linux. Luettavissa: https://linuxconfig.org/how-to-change-hostname-on-linux  
+Luettu 18.9.2023  
+
+Tero Karvinen. Short HTML5 page. Luettavissa: https://terokarvinen.com/2012/short-html5-page/  
+Luettu 18.9.2023  
+
+archlinux. Linux console/Keyboard configuration. Luettavissa: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration  
+Luettu 18.9.2023
+
+ssh. sshd – SSH server process. Luettavissa: https://www.ssh.com/academy/ssh/sshd  
+Luettu 18.9.2023
+
+suse. 2 Authentication with PAM. Luettavissa: https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-pam.html  
+Luettu: 18.9.2023
