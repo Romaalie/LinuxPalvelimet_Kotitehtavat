@@ -86,13 +86,24 @@ Vaihdoin TimeToLive asetuksiin 20min. Tämä ymmärtääkseni määritti sen, et
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/b00c0bf8-065d-4e13-90f0-aa3a8b57ae64)
 
 NameCheap poisti automaattisesti luomansa roskatiedot samalla kun tallensin omat uudet tietoni. Käyttöliittymä ei antanut minun tallentaa "A Record, www, vararikko.xyz" valintaa, joten muutin sen muotoon "CNAME Record, www, vararikko.xyz".  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/4589f873-e95a-42aa-be8b-7beb71428899)  
+
 Kun yritin löytää tarkempaa kuvausta tiedolle "TTL" laittaakseni sen tähän raporttiin, löysin myös NameCheapilta kohtuullisen [ohjeen Recordien muuttamisesta](https://www.namecheap.com/support/knowledgebase/article.aspx/319/2237/how-can-i-set-up-an-a-address-record-for-my-domain/ "NameCheap - How can I set up an A (address) record for my domain?"). Enkä lopulta jaksanut etsiä sitä kuvausta TTL:stä. Nyt oli aika odotella, että muutokset tulisivat voimaan. Ehkä tehdä pari punnerrusta tai muita kotitehtäviä eteenpäin.  
 
-TESTAA TOIMIIKO SIVU!
+Tein mm. muita kotitehtävän osioita eteenpäin ja noin tunnin jälkeen palasin tähän vaiheeseen tarkistamaan oliko nimipalvelu käytössä. Syötin virtuaalikoneeni (LinuxNub) komentoriville `firefox vararikko.xyz`. Hetken odottelun jälkeen pääsin aiemmissa tehtävissäni muokkaamalleni linode virtuaalipalvelimen kotisivulle. Avasin firefoxiin kaksi uutta välilehteä ja kokeilin osoitteita. www.vararikko.xyz sekä https://www.vararikko.xyz. https ei toiminut, mutta muut toimivat.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/db2124ad-d755-4ef1-a0d8-b97b7ed79cd1)  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a2d1ea08-044c-4540-8891-b9fc11a118b5)
+
+Https ei ymmärtääkseni toimi, koska en ole tehnyt domainini asetuksiin recordeja, jotka ohjaisivat oikeaan ip-osoitteeseen https protokollaa käytettäessä.
+
+
 
 ## b) Oman domain nimen tutkiminen `host` ja `dig` -komennoilla  
 
-Käynnistin oman virtuaalikoneeni (ei linode) ja päivitin sen `sudo apt-get update` & `sudo apt-get upgrade`. Tämän jälkeen tutkin sillä otsikon komentojen manuaalisivuja `man host` & `man dig`.  
+Käynnistin oman virtuaalikoneeni (LinuxNub aka ei linode) ja päivitin sen `sudo apt-get update` & `sudo apt-get upgrade`. Tämän jälkeen tutkin sillä otsikon komentojen manuaalisivuja `man host` & `man dig`.  
 
 Manuaalin mukaan host on DNS lookup utility eli työkalu, jolla voidaan mm. katsoa perustietoja ip-osoitteen tai domain nimen takaa, kuten ip-osoite ja domain nimi.
 Yrittäessäni lukea `dig` -komennon manuaalia huomasin, että sitä ei ollut olemassa.  
@@ -101,12 +112,61 @@ Yrittäessäni lukea `dig` -komennon manuaalia huomasin, että sitä ei ollut ol
 
 Ystävällinen ankka auttoi minua löytämään internetistä [sivun](https://phoenixnap.com/kb/linux-dig-command-examples "PhoenixNAP - How to Use Linux dig Command (DNS Lookup)") , joka käsitteli `dig` -komentoa. Heti alkuun artikkeli osoitti minulle, että dig komentoa ei voi käyttää, koska sitä käyttävää työkalua ei ole asennettuna. Onneksi sivulla oli luotettava paketinhallintaa hyödyntävä komento `sudo apt-get install dnsutils`. Tämän ajettuani pääsinkin tutkimaan `dig`:n manuaalia, josta minulle selvisi `dig`:n olevan `host`:n tapaan DNS lookup utility, mutta ilmeisesti hiukan monipuolisempi sellainen.  
 
+Tarkistin tässä välissä tehtävän a) nimipalvelun toimivuuden ja kirjasin tulokset tehtävään a). Syötin sitten komennon `host vararikko.xyz` terminaaliin ja sain vastauksena kyseisen nimen IP-osoitteen sekä 5 riviä, jotka ilmoittivat minulle, että vararikko.xyz mail is handled by 10-20 eforwardX.registrar-servers.com.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/c76e4d3f-92af-4727-8a70-3797e25a9cea)
+
+Yritin löytää tietoa näistä mail is handled riveistä, mutta en nopealla googlettamisella saanut tietoja, joten siirryin testaamaan `dig` komentoa. `dig` antoikin ilman lisäparametreja huomattavasti `host` -komentoa kattavamman kasan tietoa:  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/96d0cf06-b8e9-4e9f-bbb3-ece891f4f222)  
+
+Aiemminkin linkittämäni [PhoenixNAP sivuston](https://phoenixnap.com/kb/linux-dig-command-examples "PhoenixNAP - How to Use Linux dig Command (DNS Lookup)") avulla tutkin edessäni olevia rivejä hiukan tarkemmin.  
+
+- `;  <<>> DiG 9.18.19-1~deb12u1-Debian <<>> vararikko.xyz` kertoo suorittamani `dig` -komennon version, käyttöjärjestelmän sekä etsityn kohteen.
+ 
+- `;; global options: +cmd` rivistä en löytänyt lisätietoja.
+
+- Nämä rivit kertovat minkälaisen vastauksen `dig` -komento sai serveriltä. Näitä en osannut enempää avata.  
+ `;; Got answer:`  
+ `;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 63428`  
+ `;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1`  
+
+- Nämä rivit jäivät minulle täysin arvoitukseksi.
+  `;; OPT PSEUDOSECTION:`  
+  `; EDNS: version: 0, flags:; udp: 512`   
+
+- Seuraavat rivit ilmaisevat `dig` -komennon lähettämä kysymystä ja vastausta hieman selkokielisemmin.  
+ `;; QUESTION SECTION:` Kysymys osio.  
+  `vararikko.xyz.                  IN    A` Itse kyselytieto "vararikko.xyz.". IN = Internet eli kyselyn tyyppi. A = Address eli mitä recordia kysytään.  
+  `;; ANSWER SECTION:` Vastaus osio.  
+  `vararikko.xyz.          1200    IN    A        172.104.145.15` Samat kuin kysymyksessä paitsi vastauksessa 1200 kertoo sekunneissa TTL, jonka määrittelinkin 20min kohdan a) asetuksia laittaessani. Ja lopuksi kohteen IP-osoite 172.104.145.15.  
+
+-  Lopun neljä riviä sisältävät metadataa eli tietoja itse kyselystä:  
+  `;; Query time: 47 msec` Kyselyyn kulunut aika.  
+  `;; SERVER: 193.229.0.40#53(193.229.0.40) (UDP)` Kyselyyn vastanneen DNS palvelimen IP-osoite sekä portti (#53) sekä loopback osoite; käsite jota en ymmärtänyt.  
+  `;; WHEN: Sun Sep 24 14:19:52 EEST 2023` Kyselyn suorittamisen aika: viikonpäivä, kk, pv, klo, aikavyöhyke, vuosi.  
+  `;; MSG SIZE  rcvd: 58` DNS palvelimen vastauksen koko. Oletan sen olevan tavuja.
+
+En kokeillut `host` tai `dig` komentoja millään lisäparametreilla vaan siirryin seuraavaan tehtäväosioon.
+
+
 
 ## c) Etusivu uusiksi - uudet kotisivut palvelimen etusivuksi  
 
 Tässä tehtävässä tuli tehdä käyttäjän kotisivut käyttäjän kotihakemistoon ja varmistaa, että niiden muokkauksiin ei tarvinnut sudo oikeuksia.  
 
-Otin ssh yhteyden linode virtuaalipalvelimeeni `ssh ali@172.104.145.15`. Päivitin koneen `sudo apt-get update` & `sudo apt-get upgrade`.
+Otin ssh yhteyden linode virtuaalipalvelimeeni `ssh ali@172.104.145.15`. Päivitin koneen `sudo apt-get update` & `sudo apt-get upgrade`.  
+Tässä välissä jouduin pausettamaan virtuaalikoneeni ja palasin 30min päästä takaisin huomatakseni, että ssh yhteys oli katkennut. En tiedä oliko tämä jonkinlainen aikakatkaisu vai oliko se tapahtunut `sudo apt-get upgrade`:n aikana.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/65d0fbe9-8a33-4d12-a2b5-36f817382f5b)
+
+Otin siis uuden ssh yhteyden ja pääsin normaalisti linode koneelleni. Aloin nyt seurailemaan ensimmäisen tiivistämäni artikkelin ohjeita.  
+
+Tarkistin apachen tilan komennolla `sudo systemctl apache2 status`. Näytti pyörivän.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/7eb9809b-f618-4f17-8958-29061dfd0e1f)
+
+
 
 
 
