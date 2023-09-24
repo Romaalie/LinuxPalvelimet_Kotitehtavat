@@ -166,6 +166,27 @@ Tarkistin apachen tilan komennolla `sudo systemctl apache2 status`. Näytti pyö
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/7eb9809b-f618-4f17-8958-29061dfd0e1f)
 
+Loin uuden VirtualHostin [artikkelin](https://terokarvinen.com/2016/02/16/new-default-website-with-apache2-show-your-homepage-at-top-of-example-com-no-tilde/ "Ensimmäinen artikkeli") ohjeita mukaillen.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/6dea9fa7-5994-4c30-bdb5-83f53eff65b9)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e1c08819-40a9-4afe-bf18-dedb706728d8)  
+
+Poistin vanhan testisivun käytöstä `sudo a2dissite 000-default.conf`.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/793510cd-2a23-4d61-8bbb-0a14f04bd319)
+
+Käynnistin apachen uudelleen `sudo systemctl restart apache2` ja varmistin että se oli päällä ja käynnistänyt itsensä uudelleen `sudo systemctl status apache2`.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/76aa6175-306d-4562-ad8f-de94e499dfa4)
+
+Kävin katsomassa oikeudet kotihakemistoni public_html hakemistoon.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/acee3b9e-e9ff-4b10-b346-0f97dbce4018)
+
+
+
+
 
 
 
