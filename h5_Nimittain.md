@@ -48,7 +48,20 @@ Tässä raportissa tiivistin alkuun kaksi Tero Karvisen artikkelia. Tiivistelmis
     `127.0.0.1 localhost`   
     `127.0.1.1 xubuntu`   
     `127.0.0.1 pyora.example.com`   
-    `# ...`   
+    `# ...`
+
+### [Name-based Virtual Host Support](https://httpd.apache.org/docs/2.4/vhosts/name-based.html "Kolmas artikkeli") _Tämä lisätty vasta palauttamisen jälkeen kun huomasin sen muita töitä arvioidessani. Hiukan unohtui.._  
+
+Tämä artikkeli sisälsi paljon teknistä tietoa, jota en ihan täysin sisäistänyt. Pitänee pistää kirjanmerkkeihin ja perehtyä myöhemmin.
+
+  - Nimeen vs ip osoitteeseen pohjautuvien virtual hostien erot
+    - Name-based yleensä yksinkertaisempaa kaikin puolin ja sitä suositellaan aina kun mahdollista.  
+  - Serverin valintaperiaatteista nimipohjaisessa virtual hostingissa
+    - Tämä meni kyllä vähän yli osaamistasoni..
+  - Name-based Virtual Hostien käytöstä
+    - VirtualHostille pitää antaa aina tietyt tiedot joiden mukaan asiakas voidaan ohjata haluttuun paikkaan.
+    - Tekniikka vaatii myös tiettyjen asetusten säätämistä DNS palvelimen osalta.
+
 
 ## a) Domain nimen vuokraaminen ja osoittaminen virtuaalipalvelimelleni  
 
@@ -236,6 +249,10 @@ Luettu: 24.9.2023
 Tero Karvinen. Name Based Virtual Hosts on Apache – Multiple Websites to Single IP Address.  
 Luettavissa: https://terokarvinen.com/2018/04/10/name-based-virtual-hosts-on-apache-multiple-websites-to-single-ip-address/  
 Luettu: 24.9.2023  
+
+Name-based Virtual Host Support  
+Luettavissa: https://httpd.apache.org/docs/2.4/vhosts/name-based.html  
+Luettu 24.9.2023
 
 NameCheap. How can I set up an A (address) record for my domain?  
 Luettavissa: https://www.namecheap.com/support/knowledgebase/article.aspx/319/2237/how-can-i-set-up-an-a-address-record-for-my-domain/  
