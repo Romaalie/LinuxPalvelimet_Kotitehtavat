@@ -79,7 +79,7 @@ Täältä ylävalikosta tuli valita Advanced DNS ja pääsin lopulliseen sijaint
 
 Yritin muistella mitä tänne tunnilla tehtiin. Tämän lisäksi yritin etsiä lisätietoja internetistä ilman selkeää vastausta. Katsoin jopa useamman NameCheapin pikselimössöisen ohjevideon, joissa oli vanhentunut GUI, enkä silti ollut täysin varma mitä tietoja minun piti seuraavaksi syöttää tähän kenttään.  
 Päädyin seuraaviin vaihtoehtoihin:  
-"A Record, @, 172.104.145.15" (virtuaalipalvelimeni ip). Tämän oletin nyt ohjaavan liikenteen vararikko.xyz nimestä kyseiseen ip-osoiteeseen.
+"A Record, @, 172.104.145.15" (virtuaalipalvelimeni ip). Tämän oletin nyt ohjaavan liikenteen vararikko.xyz nimestä kyseiseen ip-osoiteeseen.  
 "A Record, www, vararikko.xyz" Tämän oletin ohjaavan www,vararikko.xyz aiemmin mainitsemaani ip-osoitteeseen.  
 Vaihdoin TimeToLive asetuksiin 20min. Tämä ymmärtääkseni määritti sen, että asetukset tulevat julkisesti voimaan tämän ajan kuluttua.
 
@@ -170,6 +170,8 @@ Loin uuden VirtualHostin [artikkelin](https://terokarvinen.com/2016/02/16/new-de
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/6dea9fa7-5994-4c30-bdb5-83f53eff65b9)
 
+Sudoeditillä muokkaamani tiedosto ali.conf:
+
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e1c08819-40a9-4afe-bf18-dedb706728d8)  
 
 Poistin vanhan testisivun käytöstä `sudo a2dissite 000-default.conf`.
@@ -184,15 +186,45 @@ Kävin katsomassa oikeudet kotihakemistoni public_html hakemistoon.
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/acee3b9e-e9ff-4b10-b346-0f97dbce4018)
 
+Yritin käyttää firefoxia virtuaalipalvelimellani, mutta eihän siinä ollut sitä asennettuna. Hetken härväämisen jälkeen syötin komennon `sudo apt-get install gnome-browser-connector` ja kaduin sitä seuraavat 5 minuuttia kun kone asenteli ties mitä. Kun tämä farssi oli ohi jatkoin tehtävän suorittamista. Curlasin localhostin, mutta vastaan tuli 403 forbidden error. Ilmeisesti oikeuteni eivät olleet niin kunnossa kuin luulin.
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/6c9aa57f-f56f-4e75-83d3-56b3f129f46f)
 
+Menin katsomaan apachen error lokeja `sudo tail -l /var/log/apache2/error.log` ja ymmärtääkseni siellä kerrottiin, että jossain kohtaa polkua /home/ali/public_html oikeudet loppuivat kesken.
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/ba29a623-c1d5-424e-b77f-cddf182caf53)
 
+Yritin käydä koko polun läpi `chmod 744` komennolla. /home oikeuksia en saanut muutettua, joka on todennäköisesti aika hyvä juttu.
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/eee39aea-7400-450f-8b47-d5b65b12fe3d)
 
+Löysin `namei` komennon [netin syövereistä](https://cwiki.apache.org/confluence/display/httpd/13PermissionDenied) ja tarkistettuani `namei`:n manuaalista mitä komento tekee, suoritin `namei -m /home/ali/public_html/index.html`. Tämä komento listasi minulle yhteen näkymään koko syöttämäni polun ja käyttäjien oikeudet polun kussakin vaiheessa.
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/485bab5a-eb64-4fdc-8a68-a2196d4d05e0)
 
+Ymmärtääkseni tämän hakemistopolun kansioiden ja tiedoston omistajalla (minä?) on oikeus lukea, kirjoittaa ja suorittaa kaikissa polun vaiheissa. Ryhmäläisillä ja muilla käyttäjillä oli oikeus lukea ja suorittaa rootissa sekä /home hakemistossa. ali ja public_html hakemistoissa sekä index.html tiedostossa ryhmällä ja muilla oli vain oikeus lukea.
 
+Tässä vaiheessa päätin hyödyntää puolivalmista raporttiani ja aloin käymään sitä läpi. Huomasin, että poistettuani vanhan testisivun käytöstä en ollut syöttänyt komentoa `systemctl reload apache2`. Niinpä syötin sen ja vastaan tuli uudenlainen tunnistusikkuna. Salasana meni läpi.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/2662ad62-a40f-4446-a070-10be89ece2cd)
+
+Mutta `curl localhost` antoi vieläkin 403 forbiddenia. Eipä ollut apua tästäkään. Kävin vielä varmistamassa, että /home/ali/public_html/index.html oli tehty ja sillä oli sisältöä.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/adf8627c-3465-4b98-8afc-edf56b451ac6)
+
+Tässä vaiheessa mietin, että entä jos lukuoikeudet eivät riitä. No, päätin antaa execute oikeudet koko polulle, yksi kerrallaan.. `chmod 755`..  index.html ei näy kuvassa, mutta sille suoritettiin sama toimenpide.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/61f388d4-96ed-43a1-8246-65c175781642)
+
+Ja sivu toimii... Eli lukuoikeudet eivät riittäneet vaan piti olla oikeudet myös suorittaa.
+
+Kävin vielä muokkaamassa uuden testisivun, josta ilmeni taas ongelmat ääkkösten kanssa virtuaalipalvelimellani.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/67f4c3b3-a4b2-427b-949e-82bf024bb8f4)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/8fdd6b19-c025-4bc4-a018-71f9d8881af9)
+
+Koin tässä vaiheessa suorittaneeni tehtävänannon riittävän hyvin vaikka olisin vielä voinut kokeilla tehdä useampia sivuja saman IP-osoitten alle tällä tekniikalla. Kiitos ja kuittaus.
 
 
 ## **Lähteet**
@@ -212,3 +244,7 @@ Luettu 24.9.2023
 PhoenixNAP. How to Use Linux dig Command (DNS Lookup).
 Luettavissa: https://phoenixnap.com/kb/linux-dig-command-examples  
 Luettu 24.9.2023  
+
+Cwiki. 13PermissionDenied.  
+Luettavissa: https://cwiki.apache.org/confluence/display/httpd/13PermissionDenied  
+Luettu 24.9.2023
