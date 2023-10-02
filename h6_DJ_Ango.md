@@ -1,4 +1,4 @@
-# Kotitehtäväraportti h6  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/2ce34f41-3761-47fb-b75b-d78966c915b4)# Kotitehtäväraportti h6  
 
 _Tässä raportissa jne_  
 
@@ -35,7 +35,7 @@ Tiivistelmistä ei jälleen tullut kovin tiiviitä, koska ne toimivat myös muis
       `pip install -r requirements.txt` Käske pip:ä asentamaan requirements.txt tiedostossa mainitut paketit.   
       `django-admin --version` Varmista, että Djangosta asentui uusin versio: 4.0.2.  
     - `django-admin startproject _projektinimesi_` Käynnistä projekti.  
-    - `cd _projektinimesi_`, `./manage.py runserver`, selaimella: http://127.0.0.1:8000/  
+    - `cd _projektinimesi_`, `./manage.py runserver`, selaimella: `http://127.0.0.1:8000/`  
   - Admin käyttöliittymä  
     - `./manage.py makemigrations`, `./manage.py migrate` Päivitä tietokanta.  
     - `./manage.py createsuperuser` Lisää admin. (`sudo apt-get install pwgen`, `pwgen -s 20 1` jos kaipaat salasanaa)
@@ -54,7 +54,7 @@ Tiivistelmistä ei jälleen tullut kovin tiiviitä, koska ne toimivat myös muis
           from . import models  
     
           admin.site.register(models.Customer)  
-    - `./manage.py runserver` Tarkista toimenpiteiden onnistuminen: "Log into http://127.0.0.1:8000/admin/"
+    - `./manage.py runserver` Tarkista toimenpiteiden onnistuminen: `"Log into http://127.0.0.1:8000/admin/"`  
    - Listanäkymän muokkaaminen
       - `micro crm/models.py` Lisää models.py tiedoston loppuun seuraavat rivit:
         
@@ -146,24 +146,74 @@ Tiivistelmistä ei jälleen tullut kovin tiiviitä, koska ne toimivat myös muis
     - Tyylisivut käytössä nyt myös apachen live versiossa sivuistasi. Jes. Ja sitten kaikki tämä pitäisi osata laittaa käytäntöön. Helppoa, eikö vain. Mitään odottamatonta ei ikinä tapahdu..
    
 
-## a) Asenna Django-kehitysympäristö niin, että näet './manage.py runserver' esimerkkisivun.  
+## a) Django-kehitysympäristön asentaminen esimerkkisivuun asti  
+
+Alkuun kirjauduin paikalliselle virtuaalikoneelleni ja pyörittelin `sudo apt-get update` sekä `sudo apt-get upgrade`, jonka jälkeen otin yhteyden virtuaalikoneeseeni `ssh ali@vararikko.xyz` ja tein samat toimenpiteet siellä.  
+  
+Tämän jälkeen asensin virtualenvin komennolla `sudo apt-get -y install virtualenv`. Asentamiseen meni muutama minuutti, jonka aikana ehdin hiukan tutkia virtualenviä. Virtualenv on lyhyesti Python Packaging Authorityn kehittämä työkalu, jolla voi luoda "eristettyjä" Python virtuaaliympäristöjä. ([Python Packaging Authority](https://virtualenv.pypa.io/en/latest/index.html))  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/0458d9e6-38e3-4ac3-a351-3b20305ec30c)  
+  
+Seuraavaksi otin käyttöön juuri asentamani virtualenvin source komennolla, joka suorittaa lukee/suorittaa annetun tiedoston: `source env/bin/activate`.  
+Oletan, että tämä teki mitä halusin, koska käyttäjäni eteen ilmestyi "(env)".  
+  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e59d5b6b-aab4-4ec0-a4ee-ee49bdf03495)  
+  
+Tarkistin ohjeiden mukaisesti `which pip` -komennolla, että `pip`, jonka kohta tulisin suorittamaan suoritettaisiin virtualenvissä. Hakemistopolku vastasi ohjeissa annettua "/home/tero/env/bin/pip" korvattuna omalla käyttäjälläni.  
+  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a189a501-f5be-4115-98d4-2f7aceea8083)  
+  
+Seuraavaksi asensin micro editorin `sudo apt-get install micro`. Tässä välissä katsoin mielenkiinnosta oman hakemistosijaintini koneella (`ls`, `pwd`). Sitten loin sekä muokkasin microlla tiedostoa "requirements.txt";  
+lisäsin tiedostoon sanan "django": `micro requirements.txt` --> django crtl-S --> ctrl-Q.   
+Varmistin vielä komennolla `cat requirements.txt`, että olin onnistunut. Hyvältä näytti.    
+  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/4de066f3-aed9-4019-ab6e-8807b06d7db9)
+  
+Sitten käskin pip:ä asentamaan requirements.txt tiedostoon määritellyt paketit komennolla `pip install -r requirements.txt`. Ja tarkistin komennolla `django-admin --version`, että djangosta oli asentunut oikea versio. Minulla oli versio 4.2.5, ohjeissa oli versio 4.0.2.   
+  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/0742869d-8ed4-47fd-8391-b12eee0ac188)  
+  
+`django-admin startproject allikko` -komennolla loin itselleni uuden projektin nimeltään "allikko".  
+Navigoin ohjeiden mukaan projektikansioon `cd allikko` ja suoritin siellä komennon `./manage.py runserver`.  
+Minulla kerrottiin olevan "18 unapplied migration(s)" ja ne kehotettiin ajamaan läpi tai projekti ei välttämättä toimi halutusti.  
+  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/2817facc-3162-4c49-b3aa-5274d74e6e48)  
+
+Nyt edessäni oli pienimuotoinen aloittelija ongelma. Terminaalissani pyöri nyt oletettavasti serveri, enkä päässyt pois siitä sulkematta serveriä eli en päässyt testaamaan selaimella tai curlilla oliko serveri oikeasti pystyssä.  
+Ratkaisin ongelman ottamalla paikalliselta virtuaalikoneeltani (LinuxNub) uuden ssh yhteyden vps koneeseeni (nodeli). Näin sain uuden terminaalin käyttööni.  
+Muistelin, että en ollut saanut selainta vielä toimintaan nodelilla tässä vaiheessa, joten tarkastin devserverin toiminnan komennolla `curl http://127.0.0.1:8000`.  
+Aloittelija kun olen, en osannut antaa curlille mitään hienoja lisäkomentoja, joilla olisin saanut tarvitsemani tiedon kompaktisti ja siististi eli eteeni lävähti koko nettisivun koodi.  
+Heti alusta löysin kuitenkin haluamani tiedon eli `<title>The install worked successfully! Congratulations!</title>`.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e8e45196-d495-499d-a047-4509f2fc10a9)  
+
+## b) Yksinkertaisen esimerkkitietokannan luominen django-kehitysympäristöön ja tietojen muokkaaminen admin-liittymällä.  
+  
+
+  
+
 
 
   
 
 
 ## **Lähteet**  
-Karvinen 2023, Python Web - Idea to Production - 2023, Python weppipalvelu - ideasta tuotantoon ICT8TN034-3003  
+Karvinen 2023. Python Web - Idea to Production - 2023, Python weppipalvelu - ideasta tuotantoon ICT8TN034-3003.  
 Luettavissa: https://terokarvinen.com/2023/python-web-idea-to-production/#osaamistavoitteet  
 Luettu 02.10.2023  
 
-Karvinen 2022, Django 4 Instant Customer Database Tutorial  
+Karvinen 2022. Django 4 Instant Customer Database Tutorial.  
 Luettavissa: https://terokarvinen.com/2022/django-instant-crm-tutorial/  
 Luettu 02.10.2023  
 
-Karvinen 2023, Deploy Django 4 - Production Install  
+Karvinen 2023. Deploy Django 4 - Production Install.  
 Luettavissa: https://terokarvinen.com/2022/deploy-django/  
 Luettu 02.10.2023  
+
+Python Packaging Authority. virtualenv.  
+Luettavissa: https://virtualenv.pypa.io/en/latest/index.html  
+Luettu 02.10.2023  
+
 
 
 
