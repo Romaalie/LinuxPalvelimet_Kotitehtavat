@@ -1,6 +1,6 @@
-![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/2ce34f41-3761-47fb-b75b-d78966c915b4)# Kotitehtäväraportti h6  
+# Kotitehtäväraportti h6  
 
-_Tässä raportissa jne_  
+Tässä raportissa tiivistin tuttuun tapaan muutaman artikkelin ja perehdyin Django 4 frameworkin hyödyntämiseen luotaessa weppisivuja. 
 
 ## x) Artikkelien tiivistäminen  
 
