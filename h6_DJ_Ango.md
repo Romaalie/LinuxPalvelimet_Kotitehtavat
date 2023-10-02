@@ -152,6 +152,8 @@ Alkuun kirjauduin paikalliselle virtuaalikoneelleni ja pyörittelin `sudo apt-ge
   
 Tämän jälkeen asensin virtualenvin komennolla `sudo apt-get -y install virtualenv`. Asentamiseen meni muutama minuutti, jonka aikana ehdin hiukan tutkia virtualenviä. Virtualenv on lyhyesti Python Packaging Authorityn kehittämä työkalu, jolla voi luoda "eristettyjä" Python virtuaaliympäristöjä. ([Python Packaging Authority](https://virtualenv.pypa.io/en/latest/index.html))  
 
+Sitten loin uuden virtuaaliympäristön komennolla `virtualenv --system-site-packages -p python3 env/`
+
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/0458d9e6-38e3-4ac3-a351-3b20305ec30c)  
   
 Seuraavaksi otin käyttöön juuri asentamani virtualenvin source komennolla, joka suorittaa lukee/suorittaa annetun tiedoston: `source env/bin/activate`.  
@@ -188,13 +190,142 @@ Heti alusta löysin kuitenkin haluamani tiedon eli `<title>The install worked su
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e8e45196-d495-499d-a047-4509f2fc10a9)  
 
 ## b) Yksinkertaisen esimerkkitietokannan luominen django-kehitysympäristöön ja tietojen muokkaaminen admin-liittymällä.  
+
+Kotitehtäväkohta vaihtui, mutta ohjeet jatkuivat samasta [artikkelista](https://terokarvinen.com/2022/django-instant-crm-tutorial/ "Toinen tiivistetty artikkeli").  
+Oli aika päivittää tietokanta eli tehdä migraatiot, joista minulle aiemmin valiteltiinkin.  
+`./manage.py makemigrations`  
+`./manage.py migrate`  
+Näyttivät menevän läpi ongelmitta.  
+   
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/38d22a60-e940-4457-a8e4-bf4043926e01)
+
+Tässä vaiheessa ajattelin tutkailla miten ohjeissa vinkattu pwgen toimii, joten asensin sen komennolla `sudo apt-get install pwgen`. Tein tämän terminaalissa, jossa minulla pyöri virtualenv. En ollut varma vaikuttiko tämä jotenkin johonkin, joten päätin suorittaa saman komennon vielä terminaalissa, jossa virtualenv ei ollut päällä. Tämän perusteella ei ollut mitään ongelmallista tapahtunut, mutta en ole siitä täysin varma.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/131df576-7024-434d-a5dc-4fd7d5222bca)
+
+Seuraavaksi tutkin pwgenin toiminnallisuutta `man pwgen` ja erityisenä fokuksena ohjeiden komento `pwgen -s 20 1`.  
+Ilmeisesti tämä komento käskee pwgeniä luomaan yhden kappaleen täysin satunnaisia (-s), joskin hankalasti muistettavia salasanoja pituudeltaan 20 merkkiä. `pwgen [ OPTION ] [ pw_length ] [ num_pw  ]`  
+
+Tähän hienoon työkaluun tutustuttuani loin django projektilleni superuserin `./manage.py createsuperuser`.  
+Käyttäjänimeksi jätin oletuksena ali.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/4c0fe9ab-7bac-4ab2-8ae4-8ab30457739a)
+
+Tässä vaiheessa olisi tosiaan se selain pitänyt saada toimintaan nodelilla, joten päätin tutkia asiaa netistä ja päädyin kokeilemaan [w3m nimistä ratkaisua](https://www.wikihow.com/Browse-the-Internet-Using-the-Terminal-in-Linux "wikihow browse internet with terminal").  
+Pidin tätä ratkaisua kohtuu luotettavana, koska siinä hyödynnettiin linuxin omaa paketinhallintaa ohjelmien asentamiseen `sudo apt-get install w3m w3m-img`.
+Ohjelma asentui hetkessä, mutta valitettavasti en saanut sillä auki haluamaani näkymää. Google tosin toimi. Oletuksena saksan kielisenä.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/31942cc5-3da1-4647-a37f-620c94a2e32b)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a82e87f1-feca-4b7b-b7e5-3ff50778f418)
+
+Tässä vaiheessa aloin miettimään oliko tehtävä tarkoitus suorittaa paikallisella virtuaalikoneellani. No, meni jo. Kävin kuitenkin katsomassa omalla koneellani vararikko.xyz ja siellä näkyi vielä aiemmissa tehtävissäni laittama testisivu.  
   
+Kokeilin vielä `curl http://127.0.0.1:8000/admin/` ja `curl http://127.0.0.1:8000/`. Nämä tuottivat toisessa terminaali ikkunassa (se missä django devserveri pyöri) selvästi jotain, mutta eipä tämä käytännössä minua kauheasti auttanut.
 
-  
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d325fe2d-7685-401d-b556-b2a8e1dae9b4)
+
+Siispä siirryin etsimään toista ratkaisua. Valitettavasti en löytänyt toista ratkaisua, joten päädyin tekemään yllä mainitut toimenpiteet uudestaan paikallisella virtuaalikoneellani hyödyntäen tätä kirjoittamaani raporttia. Huomasinkin jättäneeni raportin teksistä pois kohdan, jossa luotiin uusi virtuaaliympäristö ja korjasin asian. Nimesin uuden projektini "oja". Kotitehtävän vaihe a) oli nyt suoritettu LinuxNub koneella: 
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/ed7e9962-8589-447c-a206-93bb91d07cab)
+
+Jatkoin samaa mitä olin tehnyt aiemminkin eli loin superuserin (alir) ja nyt pääsin selaimella kirjautumissivullekin.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/40da4f5e-a6d8-4cfc-b5b1-b11acb56602a)
+
+Ja kirjautuminenkin onnistui käyttäjänä alir.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/dffbbe1e-f80d-4be3-931b-faf0d8d6c875)
+
+Loin myös uuden käyttäjän "Pallokala", jolle asetin Staff ja superuser oikeudet.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/74252332-533a-49e8-8005-ae7bb29658e0)
+
+Seuraavaksi aloin luomaan asiakastietokantaa.  
+`./manage.py startapp crm` loi uuden hakemiston (crm) tulevalle app:lle.  
+`ls` komennolla varmistin tämän. 
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/877d3009-d72e-4129-9336-2a0375d2dbfe)
+
+`micro oja/settings.py` Lisäsin asetustiedostoon tämän uuden app:n.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a5792b6c-ead5-4ce1-a2bd-9eb9e95c6e94)
+
+`micro crm/models.py` Lisäsin malleja, joista Django voisi automaattisesti luoda tietokannan.  
+Lisäsin tiedostoon rivit: 
+
+        class Customer(models.Model):  
+        name = models.CharField(max_length=300)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/80775639-b7ee-4251-83c6-73a0651f673c)
+
+`./manage.py makemigrations`, `./manage.py migrate`. Päivitin tietokannan.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/f3290d25-c220-4e38-ac57-bd0d97f62c9a)
+
+`micro crm/admin.py` Lisäsin tiedostoon admin.py seuraavat rivit:  
+
+        from . import models  
+        admin.site.register(models.Customer)  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/edc5f785-04c0-47ab-b7cb-06100f9dbb12)
+
+Käynnistin taas serverin ja kirjauduin käyttäjänä Pallokala.  
+CRM ja Customerit näkyivät.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/63e6d096-bbff-4bc7-b526-09d1175339ac)
+
+"Asiakkaiden" lisääminen onnistui.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/0c4e5247-df37-4f7c-99b2-ec61a7fe3be9)
+
+Suljin serverin ja muokkasin tiedostoa models.py `micro crm/models.py` lisäämällä rivit:  
+
+      def __str__(self):
+      return self.name
+
+Menin takaisin serverille katsomaan oliko näkymä muuttunut ja olihan se:  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d5f54e6c-99cc-439f-b8a0-eadef4948d74)
+
+## c) Djangon tuotantotyyppinen asennus omalle, paikalliselle virtuaalikoneelle  
+
+45min aikaa ennen palautusta, joten katsotaan kuinka pitkälle päästään. 
+
+`mkdir -p publicwsgi/oja/static/` Loin uuden hakemiston, jonne tein microlla tiedoston index.html, johon kirjoitin "Statically see you at ThePond.com".  
+`sudoedit /etc/apache2/sites-available/oja.conf` Loin uuden VirtualHostin.  
+
+    <VirtualHost *:80>
+	      Alias /static/ /home/alir/publicwsgi/oja/static/
+	      <Directory /home/alir/publicwsgi/oja/static/>
+		        Require all granted
+	      </Directory>
+    </VirtualHost>
 
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/25928c13-d02b-4a81-b053-41ee7f3e2fed)
 
-  
+Kävin laittamassa uuden virtualhostin käyttöön.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/8a4b7400-2d75-4310-a04e-eb14f3872d72)
+
+Palasin vielä muokkaamaan hiukan aiemmin luomaani oja.conf tiedostoa, koska halusin hyödyntää name based virtual hostingia.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/b2532240-b72d-44c7-92a7-c1de95818f30)
+
+`sudo a2ensite oja.conf` Otin sivuston käyttöön.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/ec8aea4a-b958-4129-a3b7-c000406bbcb9)
+
+`sudo systemctl restart apache2` Ja uudelleenkäynnistin apache2.  
+`curl http://localhost/static/` -komennolla en saanut haluamaani sivustoa.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a7903521-afe8-44a2-8447-980b609c2dd5)
+
+---------------------------------------- AIKARAJA TULI VASTAAN -------------------------------------------
+Keskeytys ajalla 02.10.2023 klo 13.45.
+
+Olin varmaankin sotkenut jotain asetuksia tehdessäni tätä vaihetta kiireellä, eikä minulla nyt ollut ennen palautusta aikaa tutkia tarkemmin mikä oli vialla. Harmi. Ehkäpä voin jatkaa tehtävän tekemistä myöhemmin jos sellainen on sallittua. Katsokoot ihmiset muutoslokista vaikka mitä on tehty missäkin vaiheessa. Jos sitä muut edes näkee.
 
 
 ## **Lähteet**  
