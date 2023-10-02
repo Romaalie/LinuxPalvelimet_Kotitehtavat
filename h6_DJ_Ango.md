@@ -62,4 +62,109 @@ Tiivistelmistä ei jälleen tullut kovin tiiviitä, koska ne toimivat myös muis
             return self.name
           
 ### [Karvinen 2022: Deploy Django 4 - Production Install](https://terokarvinen.com/2022/deploy-django/ "Tuotantopalvelimen pystyyn laittaminen")
+
+  - Artikkelin sisältö:
+    - Esivaatimukset linux komentorivin käyttö, asennettu linux järjestelmä, vuokrattu vps  
+    - Micro editorin asennus  
+    - Apache2 asennus  
+    - Weppi sisällön luominen  
+    - Virtual Hostin luominen  
+    - VirtualEnvin ja Djangon asentaminen
+    - Uuden django projektin luominen
+    - Pythonin liittäminen Apacheen käyttäen mod_wsgi:tä
+    
+  - Keskityin tässä artikkelissa viimeiseen kohtaan, koska muut kohdat on pääosin joko tehty aiemmin kurssilla tai käsitelty tämän kotitehtävän muissa artikkeleissa
+      
+  - Olennaista on tietää kolme absoluuttista hakemistopolkua seuraaviin kohteisiin:
+    - Django projektin päähakemisto (TDIR)  
+    - Django projektin wsgi.py tiedoston sijainti (TWSGI)
+    - Virtualenv:n sivustopakettien hakemisto (TVENV)
+    - `sudoedit /etc/apache2/sites-available/teroco.conf` Sudoeditillä muokataan apacheen sivusto saataville ja lisätään seuraavat muutettuna omilla tiedoilla:
+    
+    
+          Define TDIR /home/tero/publicwsgi/teroco
+          Define TWSGI /home/tero/publicwsgi/teroco/teroco/wsgi.py
+          Define TUSER tero
+          Define TVENV /home/tero/publicwsgi/env/lib/python3.9/site-packages
+          # See https://terokarvinen.com/2022/deploy-django/
+  
+          <VirtualHost *:80>  
+                Alias /static/ ${TDIR}/static/  
+                <Directory ${TDIR}/static/>  
+                        Require all granted  
+                </Directory>  
+  
+                WSGIDaemonProcess ${TUSER} user=${TUSER} group=${TUSER} threads=5  
+          python-path="${TDIR}:${TVENV}"  
+                WSGIScriptAlias / ${TWSGI}  
+                <Directory ${TDIR}>  
+                     WSGIProcessGroup ${TUSER}  
+                     WSGIApplicationGroup %{GLOBAL}  
+                     WSGIScriptReloading On  
+                     <Files wsgi.py>  
+                        Require all granted  
+                     </Files>  
+                </Directory>  
+     
+          </VirtualHost>  
+             
+          Undefine TDIR   
+          Undefine TWSGI   
+          Undefine TUSER  
+          Undefine TVENV   
+     
+    - `sudo apt-get -y install libapache2-mod-wsgi-py3` Asennetaan apachen WSGI moduuli.
+    - `/sbin/apache2ctl configtest` Tarkistetaan syntaksi.
+    - `sudo systemctl restart apache2` Käynnistetään apache, jotta muutokset tulevat voimaan.
+    - `curl -s localhost|grep title`  Etsitään localhostilta "title" ja katsotaan mitä palauttaa. Pitäisi tulla "<title>The install worked successfully! Congratulations!</title>"
+    - `curl -sI localhost|grep Server` Varmistetaan, että kyseessä on todellakin apachen pyörittämä serveri eikä pelkkä suojaamaton kehitysympäristö. Pitäisi tulla "Server: Apache/2.4.52 (Debian)".         Rippuen omasta apache ja distro versiostasi toki.
+    - Tarkista toimivuus nettiselaimessa. Pitäisi näkyä Djangon ilmoitus DEBUG=True jne.  
+  - Debug moodin poisto:
+    - Muokkaa Django projektisi settings.py tiedostoa (oman projektin nimi tilalle):  
+      `cd`  
+      `cd publicwsgi/teroco/`  
+      `micro teroco/settings.py`  
+    - Muuta vain seuraavia rivejä tiedostosta vastaaviksi (Localhost on testausta varten. Oman sivuston nimi "hello.terokarvinen.com" tilalle. Näkyy julkisesti. Se minkä vuokrasit.):
+      
+           DEBUG = False
+           ALLOWED_HOSTS = ["localhost", "hello.terokarvinen.com"]
+  
+    - `touch teroco/wsgi.py` Kun koodaat jotain uutta sivulle tai muutat asetuksia muista päivittää (OMAN) projektisi wsgi.py tiedoston aikaleimat.
+    - `sudo systemctl restart apache2` Suurempia muokkauksia tehtäessä voit joutua käynnistämään apachen uudelleen.
+    - `curl -s localhost|grep title` --> "<title>Not Found</title>" Varmista, että sivusto antaa uuden ilmoituksen.
+       
+  - Staattisten ominaisuuksien käyttöönotto apacheen, esim CSS tyylisivut
+    - Muokkaa Django projektisi settings.py tiedostoa (oman projektin nimi tilalle):  
+      `cd`  
+      `cd publicwsgi/teroco/`  
+      `micro teroco/settings.py`  
+    - Lisää rivit:  
+      `import os`  Tiedoston alkuun muiden importtien joukkoon.  
+      `STATIC_ROOT = os.path.join(BASE_DIR, 'static/')`
         
+    - `./manage.py collectstatic` --> yes
+    - Tyylisivut käytössä nyt myös apachen live versiossa sivuistasi. Jes. Ja sitten kaikki tämä pitäisi osata laittaa käytäntöön. Helppoa, eikö vain. Mitään odottamatonta ei ikinä tapahdu..
+   
+
+## a) Asenna Django-kehitysympäristö niin, että näet './manage.py runserver' esimerkkisivun.  
+
+
+  
+
+
+## **Lähteet**  
+Karvinen 2023, Python Web - Idea to Production - 2023, Python weppipalvelu - ideasta tuotantoon ICT8TN034-3003  
+Luettavissa: https://terokarvinen.com/2023/python-web-idea-to-production/#osaamistavoitteet  
+Luettu 02.10.2023  
+
+Karvinen 2022, Django 4 Instant Customer Database Tutorial  
+Luettavissa: https://terokarvinen.com/2022/django-instant-crm-tutorial/  
+Luettu 02.10.2023  
+
+Karvinen 2023, Deploy Django 4 - Production Install  
+Luettavissa: https://terokarvinen.com/2022/deploy-django/  
+Luettu 02.10.2023  
+
+
+
+
