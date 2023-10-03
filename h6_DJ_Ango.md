@@ -387,7 +387,35 @@ configtest tuotti halutunlaisen virheviestin eli "AH00558: apache2:" valitus pub
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/f11801fb-54d6-487e-8b94-88baf870a482)
 
 Koska olin jo aiemmin asentanut Djangon ja luonut projektin "oja", siirryin vaiheeseen "Connect Python to Apache using mod_wsgi".  
+Eli `sudoedit /etc/apache2/sites-available/oja.conf` ja kopioin omilla hakemistopoluillani ym. ohjeiden tekstin.  
+Kommentoin pois "#" kaikki tiedoston aiemmat asetukset siltä varalta, että kaipaisin niitä vielä.  
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/83dbd101-3b2c-4df0-a701-58e252898952)
+
+Seuraavaksi asensin apachen wsgi moduulin sen enempiä tutkimatta, koska kyseessä oli turvallinen paketinhallinta järjestelmä `sudo apt-get -y install libapache2-mod-wsgi-py3`.  
+Tarkistin syntaxin `/sbin/apache2ctl configtest`. Sama virhe kuin aiemminkin.  
+Tarkistin myös `firefox http://localhost/static/` ja oikea sivunäkymä aukesi.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/67840136-30d6-461e-96d6-6e63ad2ade77)
+
+Käynnistin apachen uudelleen `sudo systemctl restart apache2`.  
+Katsoin mitä localhost palauttaa titlessä jaaaa `curl -s localhost|grep title`.  
+`<title>403 Forbidden</title>`  
+Eli todennäköisesti oikeudet olivat väärin, joten niiden muuttamista tutkimaan.  
+`namei -m /home/alir/publicwsgi/oja/static/index.html` kertoi, että kaikissa hakemistopolun hakemistoissa oli "muut" -ryhmällä suoritusoikeudet sekä index.html tiedostossa lukuoikeudet.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/592981f6-c79e-4ba9-8ffa-bc2df1b86b1b)
+
+Kävin kurkkaamassa Linode koneeltani "oikeat" oikeudet, jotka olin viime oppitunnin jälkeen käynyt muokaamassa sinne.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/cb20c3b6-e04a-4944-853e-627ab3816351)
+
+Eli kansioihin suoritusoikeudet ja tiedostoon lukuoikeus `chmod` komennolla. Sitten katsomaan toimiko. `curl -s localhost|grep title`.  
+Eipä toiminut.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/96e3575b-fb19-4f99-bc0f-fdb8c4ca4733)
+
+Sitten vaihteeksi loppui taas aika tämän tutkimiseen. Ehkäpä tunnilla selviää lisää!
 
 
 
