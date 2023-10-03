@@ -322,10 +322,74 @@ Palasin vielä muokkaamaan hiukan aiemmin luomaani oja.conf tiedostoa, koska hal
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a7903521-afe8-44a2-8447-980b609c2dd5)
 
----------------------------------------- AIKARAJA TULI VASTAAN -------------------------------------------
+---------------------------------------- AIKARAJA TULI VASTAAN -------------------------------------------  
 Keskeytys ajalla 02.10.2023 klo 13.45.
 
 Olin varmaankin sotkenut jotain asetuksia tehdessäni tätä vaihetta kiireellä, eikä minulla nyt ollut ennen palautusta aikaa tutkia tarkemmin mikä oli vialla. Harmi. Ehkäpä voin jatkaa tehtävän tekemistä myöhemmin jos sellainen on sallittua. Katsokoot ihmiset muutoslokista vaikka mitä on tehty missäkin vaiheessa. Jos sitä muut edes näkee.
+
+---------------------------------------- KISA JATKUU -----------------------------------------------------  
+Nyt näytti vertaisarvioinnit tulleen niin voinen jatkaa tehtävän suorittamista omaksi ilokseni eli tästä eteenpäin pois lukien aiemmin käytettyjen lähteiden lähdemerkinnät on palautusajan jälkeen tehtyä.  
+
+Uusi päivä uudet kujeet eli ajoin paikallisella virtuaalikoneellani `sudo apt-get update` ja `sudo apt-get upgrade`.  Seuraavaksi piti lähteä purkamaan name based virtual hosting vyyhtiä, joka ilmeisesti esti sivustoani näkymästä.  
+
+Tarkistin komennolla `firefox localhost`, mitä tällä hetkellä oli näkyvissä ja sieltä tuli vastaan aiemmissa kotitehtävissä tehty BarFuu.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/9b47e155-1478-4111-baf1-5385db30c474)
+
+Kokeilin myös `curl http://localhost/static/`, jolla pitäisi tulla näkyviin eilen asettamani staattinen sivu. Sen sijaan tuli user error 404.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/da5885af-b43f-4fac-a06b-1f13c397adaa)
+
+Tästä päättelin, että ongelmia ei välttämättä ollut vain name based virtual hostingissa vaan ehkä myös staattisen sivun asettamisessa.  
+Kävin tarkistamassa eilen luomani index.html tiedoston sisällön hakemistosta /home/alir/publicwsgi/oja/static . Se sisälsi vain esittelytekstin, jonka oli tarkoitus tulla näkyviin kun staattinen sivusto toimii.  
+Seuraavaksi menin katsomaan hakemistosta /etc/apache2/sites-available , että mitä sieltä löytyy:
+000-default.conf, default-ssl.conf, oja.conf.  
+oja.conf sisälsi aiemmin sinne kiireessä roiskaisemani asiat:  
+
+	<VirtualHost *:80>  
+      	ServerName ThePond.com  
+       	ServerAlias www.ThePond.com  
+        	DocumentRoot /home/alir/publicwsgi/oja/static/  
+        	Alias /static/ /home/alir/publicwsgi/oja/static/  
+        	<Directory /home/alir/publicwsgi/oja/static/>  
+                	Require all granted  
+        	</Directory>  
+	</VirtualHost>  
+
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/5ca15048-9a3f-4e7a-acde-c5df9e137131)
+
+Päätin lähteä etsimään missä ja minkä niminen on tiedosto, joka avaa localhostille sivuston BarFuu. Minulla oli jo melko hyvä aavistus, mutta ajattelin kokeilla vähän aiemmin opittuja komentoja.  
+Homma ei ollutkaan ihan niin helppo, vaan tähän meni useampi hetki tutkiessa mm. `man grep` sekä `man curl` ja etsiessä myös manuaalisesti eri hakemistoja koneeltani. No, vastaus löytyi lopulta helposti tutkimalla vanhoja kotitehtäväraporttejani (ai raporteista on jotain hyötyä vai..).  
+Kun olin paikallistanut localhostin käyttämän index.html tiedoston sijaintiin /var/www/html päätin kokeilla `grep -r BarFuu` ja sain pienen opetuksen `grep`n toiminnasta eli ilmeisesti vaikka hakutulos oli heti ylhäällä saatavilla, grep kävi silti hakemistoja ja tiedostoja läpi ja ilmoitti kaikista mihin sillä ei ollut ajamillani oikeuksilla pääsyä. Tapoin prosessin `CRTL+C` ja jatkoin tehtävääni.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/8682ea7f-c49a-4dea-a1b9-9f1dad70fe03)
+
+Eli tosiaan päättelin löytämäni index.html tiedoston sijainnista, että apachen oletussivun sisältö oli vain muutettu.  
+Siispä poistin oletussivun käytöstä `sudo a2dissite 000-default.conf` ja otin omani käyttöön `sudo a2ensite oja.conf`. Ilmeisesti olin jo ottanut omani käyttöön, koska konsoliin tuli ilmoitus "Site oja already enabled".  
+Käynnistin vielä apachen uudelleen `sudo systemctl restart apache2`.  
+`firefox localhost` ja mitä ihmettä "BarFuu" siellä edelleen. No, kokeillaan koneen ehdottamaa komentoa `systemctl reload apache2`.  
+Tästä saatiinkin uudenlainen vahvistusikkuna:  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/552b668d-fcc9-4902-bf87-1d78c3207780)
+
+Komento meni läpi, `firefox localhost` ja... "BarFuu". :')  
+Hetkinen.. Mihinkäs minä nyt yritinkään mennä. Kokeillaanpa `firefox ThePond.com`.  
+Voíla!  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e8a66499-b184-435c-834d-3ca1aa28820d)
+
+Ehkä tässä vaiheessa voisi miettiä, josko erilaiset nimeämiskäytännöt auttaisivat muistamaan mihin ollaan menossa ja mitä tekemässä.  
+
+Jatkoin [ohjeiden](https://terokarvinen.com/2022/deploy-django/ "Karvinen 2022: Deploy Django 4 - Production Install") seuraamista eli kokeilin toimiiko `/sbin/apache2ctl configtest` ja `curl http://localhost/static/`.  
+configtest tuotti halutunlaisen virheviestin eli "AH00558: apache2:" valitus public domain namesta ja static sivun curlaaminen toi esiin kirjoittamani tekstin, jonka halusinkin nähdä "Statically see you at ThePond.com".  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/f11801fb-54d6-487e-8b94-88baf870a482)
+
+Koska olin jo aiemmin asentanut Djangon ja luonut projektin "oja", siirryin vaiheeseen "Connect Python to Apache using mod_wsgi".  
+
+
+
 
 
 ## **Lähteet**  
