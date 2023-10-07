@@ -257,9 +257,9 @@ Ja kun lisäsin kaikille...
 Eli oikeudet olivat juuri niinkuin pitikin.  
 Raportin tarkkuus ja taso tulisi todennäköisesti tästä eteenpäin hiukan laskemaan, koska en jaksanut yksityiskohtaisesti kirjoittaa kaikkea ylös enää tässä vaiheessa. Olisinko voinut lopettaa ja jatkaa toiste virkeämpänä. Ehkä. Oliko minulla aikaa moiseen: ei. Elikkäs.. Yritin tulkita Cooperin kirjan ohjeita suorittamalla seuraavia komentoja: 
 Yritin komentoa `bash hailcom` --> ei toiminut.  
-`./hailcom` --> ei toiminut.
-`./hailcom.sh` --> toimi.
-`hailcom.sh` --> ei toiminut.
+`./hailcom` --> ei toiminut.  
+`./hailcom.sh` --> toimi.  
+`hailcom.sh` --> ei toiminut.  
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/822c845a-9733-4f7a-9c02-b9bbcb0cce57)
 
@@ -286,7 +286,7 @@ Tässä välissä laitoin kirjanmerkkeihin Cooperin kirjan.
 ## f) Ratkaise vanha labratehtävä
 
 Ei hele nytkö piti tehdä vielä kokonainen tentti tähän päälle. No, lähdin suorittamaan.  
-Tai oikeastaan löydettyäni ja luettuani läpi pari vanhaa labratehtävää:
+Tai oikeastaan löydettyäni ja luettuani läpi pari vanhaa labratehtävää:  
 [Arvioitava laboratorioharjoitus – Linux palvelimet ict4tn021-4 tiistai – alkusyksy 2017 – 5 op](https://terokarvinen.com/2017/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-4-tiistai-alkusyksy-2017-5-op/)  
 [Arvioitava laboratorioharjoitus – Linux palvelimet ict4tn021-5 torstai – alkusyksy 2017 – 5 op](https://terokarvinen.com/2017/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-5-torstai-alkusyksy-2017-5-op/)  
 [Arvioitava laboratorioharjoitus – Linux palvelimet ict4tn021-2 (uusi OPS) alkukeväällä 2017 p1](https://terokarvinen.com/2017/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-2-uusi-ops-alkukevaalla-2017-p1/)  
