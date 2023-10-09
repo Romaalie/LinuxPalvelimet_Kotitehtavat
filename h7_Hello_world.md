@@ -1,4 +1,4 @@
-# Kotitehtäväraportti h7
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a7c607ed-9430-4655-8939-fc8eadbd9d0e)# Kotitehtäväraportti h7
 
 Tähän se kaikki sitten kulminoituu. Tässä kotitehtäväraportissa tuli tehtyä vaikka ja mitä. Paljon jäi myös tekemättä. 
 
@@ -410,14 +410,71 @@ Tässä vaiheessa oli vajaa 15min aikaa ennen palautusta. Ajattelin katsoa kuink
 
 ![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/ac1287e4-4cd0-4330-ac4f-4e41db806b3b)
 
----------------------------------------------- AIKA LOPPUI -----------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
 
----------------------- Teen tähän vähän merkintää mikä väli on tehty palautusajan loppumisen jälkeen -----------
+## _Teen tähän vähän merkintää mikä väli on tehty palautusajan loppumisen jälkeen. Eli tästä jatkuva pätkä._  
 
-Blaa blaa lounastauko blöö.
 
---------------------- Tästä eteenpäin oli tehty ajallaan -------------------------------------------------------
+Eli homma jatkui.  
+`firefox http://sleep.example.com` heitti apachen oletussivulle, jonka mielestäni suljin mutta kokeilin sulkea sen vielä uudelleen.  
+`sudo a2dissite 000-default` --> "Site 000-default already disabled".  
+`sudo a2ensite sleep.example.com` --> "ERROR: Site sleep.example.com does not exist!"  
+Eli tässä oli seuraava pähkinä, miksi sitä ei ole olemassa.  
+`cd /etc/apache2/sites-available/`, `ls` --> sleep.example.com löytyy.  
+`cat sleep.example.com` --> sisällön pitäisi olla kunnossa.
 
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/30322076-6e59-4a09-8f90-ee275b2adc34)
+
+`cd /home/jormamah/public_html/`, `ls`, `cat sleep.example.com` --> näyttäisi oikealta.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d9c1b82e-d54e-46c4-9bc0-646e329e1bb7)
+
+Kävin validatorissa kurkkaamassa onko html5 sivu kirjoitettu oikein ja näytti menevän läpi.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/2d028b8c-981b-4603-91a0-437aac41d9e1)
+
+Kävin kirjoittamassa tässä välissä apachen default sivun päälle `echo "Default"|sudo tee /var/www/html/index.html`. En tiedä oliko tästä mitään iloa, mutta oli ohjeissa niin kaikkea kannattaa kokeilla.  
+Nopea googletus ja ongelma löytyi. Nimittäin taas lukihärö. Olin nimennyt tiedostoja väärin ja niiden perästä puuttui .conf. Ryhdyin tarkistamaan mistä kaikkialta se puuttui.  
+Heti löytyi yksi sijainnista /etc/apache2/sites-available/ .  
+Nimesin tiedoston uudelleen `sudo mv sleep.example.com sleep.example.com.conf ` ja kokeilin `sudo a2ensite sleep.example.com.conf`. --> "Enabling site sleep.example.com" eli toimi.  
+Sitten kokeilemaan `firefox http://sleep.example.com` --> apachen defaul sivu. Enkös minä poistanut tämän käytöstä ja kirjoittanut päällekin...  
+
+Aika tutkia apachen lokeja `sudo tail /var/log/apache2/error.log`.
+En keksinyt näistä mitään.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/2df7790c-fdf9-430f-b96d-9ed095c7c2f2)
+
+Seuraavaksi kokeilin seurata lokeja reaaliajassa `sudo tail -f /var/log/apache2/error.log`.  
+Kokeilin eri komentoja `curl localhost`, `curl -H 'Host: sleep.example.com' localhost`. Kumpikaan ei tuottanut liikehdintää apachen error lokissa.  
+Konsoliin niistä molemmista kirjautui seuraava:  
+
+```
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+<hr>
+<address>Apache/2.4.57 (Debian) Server at sleep.example.com Port 80</address>
+</body></html>
+```
+
+Kokeilin `sudo tail -f /var/log/apache2/error.log` komentoni toimivuutta käynnistämällä apachen uudelleen `sudo systemctl restart apache2` ja kyllä lokiin ilmestyi uusia rivejä.  
+Kokeilin availla porttia 80 ufw. Ei auttanut. Suljin sen.  
+
+Alkoi olla vähän paukut lopussa ja sormi oli ollut suussa niin kauan, että ihan kuin sitä olisi liottanut päivän vesilasissa.  
+Kokeilin vielä muutamaa komentoa `ip addr` ja `host 127.0.0.1`.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e6851ebb-0f9d-47df-8b69-82ff748267f4)
+
+Palautin apachen oletussivun johon olin muokannus aiemmin "Default", `sudo a2ensite 000-default.conf` ja käynnistin apachen uudelleen `sudo systemctl reload apache2`.  
+`curl localhost` --> "Default".  
+Tämän pidemmälle en valitettavasti tässä asiassa päässyt. Ehkä palaan joskus ongelman pariin, ehkä en.  
+
+## _Tästä eteenpäin oli tehty ajallaan._
+
+--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
