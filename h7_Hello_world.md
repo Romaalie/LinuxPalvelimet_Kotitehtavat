@@ -280,10 +280,26 @@ Toimi. Jes. Seuraava. Että tämän tasoinen raportti.
 Tässä välissä laitoin kirjanmerkkeihin Cooperin kirjan.  
 
 
+_Tässä välissä oli välipäivä, aloin aiemmin suorittamaan f) tehtävää, mutta no, siellä se lukee._  
+Siispä luomaan uusi käyttäjä `sudo adduser terppa`, joka luo käyttäjän terppa, sekä uuden ryhmän terppa ja lisää käyttäjän sinne ja kotihakemiston uudelle käyttäjälle. Vielä piti laittaa hyvä salasana ja joitain tietoja. Tarkistin vielä `sudo cat /etc/passwd | grep terppa`, että uusi käyttäjä oli luotu.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/e989fabb-cdfb-4b50-857d-ed703e06966a)
+
+Ja tässä välissä pieni perhekriisi, joten hyvä salasana unohtui muistista ja jouduin luomaan uuden käyttäjän `sudo adduser terppa2`.  
+Menin testaamaan sitä `su terppa2`.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/68301099-21f8-420c-a29a-98805be77936)
+
+Ja luomani komennon toimivuutta uudella käyttäjällä `hailcom`. Komento tulosti haluamani syötteen.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/99fb625a-5011-4718-bc3a-c60fb5433a24)
 
 
 
-## f) Ratkaise vanha labratehtävä
+
+
+
+## f) Ratkaise vanha labratehtävä  (Klassisesti aika loppuu kesken, joten tässä vaiheessa olisi paljon lähdeviitteitä ym. mitä voisi parantaa. Aika monta asiaa tuli tutkittua netistä ja komentojen manuaalisivuilta)
 
 Ei hele nytkö piti tehdä vielä kokonainen tentti tähän päälle. No, lähdin suorittamaan.  
 Tai oikeastaan löydettyäni ja luettuani läpi pari vanhaa labratehtävää:  
@@ -292,7 +308,146 @@ Tai oikeastaan löydettyäni ja luettuani läpi pari vanhaa labratehtävää:
 [Arvioitava laboratorioharjoitus – Linux palvelimet ict4tn021-2 (uusi OPS) alkukeväällä 2017 p1](https://terokarvinen.com/2017/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-2-uusi-ops-alkukevaalla-2017-p1/)  
 [Arvioitava laboratorioharjoitus – Linux palvelimet ict4tn021-3 (uusi OPS) alkukeväällä 2017 p1](https://terokarvinen.com/2017/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-3-uusi-ops-alkukevaalla-2017-p1/)
 
-Masennuin tehtävien laajuudesta ja haastavuudesta ja päätin lopettaa linux työskentelyn tältä päivältä. Ohjelmointi 1 tentti, joka on myös tiistaina tulee olemaan niin lasten leikkiä tähän verrattuna...
+Masennuin tehtävien laajuudesta ja haastavuudesta ja päätin lopettaa linux työskentelyn tältä päivältä. Ohjelmointi 1 tentti, joka on myös tiistaina tulee olemaan niin lasten leikkiä tähän verrattuna...  
+
+Jatkoin työskentelyä pidettyäni välipäivän ja tajusin, että en ollut kokeillut edellisen tehtävän komennon toimivuutta toisella käyttäjällä, joten tein sen kohdan tähän väliin ja sitten jatkoin tätä vaihetta.  
+
+Koska vanhan labratehtävän ratkaiseminen JA raportointi vaikutti melko työläältä, päätin alkuun tehdä uuden virtuaalikoneen valmiiksi eli siirryin tehtävään g).  
+Tehtyäni tehtävän g), jatkoin tämän suorittamista.  
+
+Valitsin vanhoista labroista seuraavan: [Arvioitava laboratorioharjoitus – Linux palvelimet ict4tn021-3 (uusi OPS) alkukeväällä 2017 p1](https://terokarvinen.com/2017/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-3-uusi-ops-alkukevaalla-2017-p1/)  
+Koska tunneilla käyttämälläni virtuaalikoneella oli jo vaikka mitä kivaa sotkua, päätin tehdä uuden puhtaan asennuksen kohdan g) mukaisesti.  
+Tein siis uuden virtuaalikoneen kuten kohdassa g) ja jatkoin siitä.  
+
+~~Koska minun tuli luoda useita käyttäjiä päätin kokeilla password manager ohjelmaa nimeltään pass, josta luin [netistä](https://www.howtogeek.com/devops/how-to-use-pass-a-command-line-password-manager-for-linux-systems/ "pass, pwmanageri").
+Latasin pass:n paketinhallinnasta `sudo apt-get install pass`.  
+Loin gpg:llä sa..~~
+
+Koska minun tuli luoda useita käyttäjiä päätin kokeilla kpcli nimistä password manager ohjelmaa, josta luin [netistä](https://kpcli.sourceforge.io/).  
+Käytettyäni melkoisen määrän aikaa tämän toiminnallisuuden opetteluun, aloin luomaan käyttäjiä.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/3cb4666a-8f43-423c-8126-fdcbd94b6fb4)
+
+Loin käyttäjän Jorma Mähkylä, käyttäjänimi jormamah `sudo adduser jormamah` ja asetin tälle hyvän generoidun salasanan kpclistä.  
+Valitettavasti copy pasteilu meni ensimmäisellä kerralla hiukan pieleen, joten jouduin poistamaan Jorman `sudo deluser jormamah --remove-all-files` ja loin hänet uudelleen.  
+Tällä kertaa luominen onnistui ja pääsin kirjautumaan Jormalla sisään.  
+`su jormamah` --> salasana. Olin ihan Jormana paikalla.  
+Menin Jorman kotihakemistoon `cd` ja katsoin missä olen ja mitä siellä on `pwd`, `ls`.  
+Olin tosiaan Jorman kotihakemistossa /home/jormamah , eikä siellä ollut mitään, koska Jorma ei ollut tehnyt sinne mitään.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/84946a72-828c-4ad1-8c82-a9c84b8fe4c6)
+
+Koska olin raudanluja aloittelija, loin muutkin käyttäjät (Pekka Hurme, Ronaldo Smith, Håkan Petersson, Einari Mikkonen, Einari Vähäkäähkä, Eija Vähäkäähkä, Maija Virtanen) vastaavasti. Manuaalisesti.  
+Maijalle asetin käyttäjätunnuksen "maija".  
+Seuraavaksi piti Maijalle antaa sudo oikeudet `sudo visudo`.  
+Törmäsin kohteliaaseen ehdotukseen kommenteissa olla muokkaamatta tätä tiedostoa, joten ehkä olisi toinenkin tapa.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/9905fbf7-40c7-4d4a-8fbb-ca9f5bf221ea)
+
+Ajattelin lisätä siis Maijan sudo ryhmään `sudo usermod -aG sudo maija`.  
+Menin testaamaan toimiko tämä. Aluksi vaihdoin Maijan käyttäjälle, mutta sitten löysin komennon `id maija`, joka näytti mm. mihin ryhmiin käyttäjä maija kuuluu. Hän kuului nyt ryhmään 27(sudo).  
+Päätin kokeilla jotain sudokomentoa maijana `sudo apt-get update`, mutta en jostain syystä nyt saanut salasanaa toimimaan.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d3511c06-352c-4c26-a4ee-1b5933e62f2f)
+
+Jotain omaa säätöä siinä vain oli, koska yrittäessäni uudelleen homma toimi.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/1f9da66f-3e0f-4dcc-a7e5-67ab296b0538)
+
+Kokeilin myös `sudo ufw status` --> Status: active.  
+Sekä `ufw status` --> bash: ufw: command not found.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/c7483deb-7e29-48d8-a6e1-634485f8fafe)
+
+Jatkoin työskentelyä omalla käyttäjälläni maija: `exit`.  
+
+Sitten piti laittaa kotisivuja kaikille eli `sudo apt-get -y install apache2`.  
+`firefox "http://localhost` avasi halutusti apache2 oletussivun.  
+`sudo a2enmod userdir` ja `sudo systemctl restart apache2`. Käyttäjien kotisivut toimintaan.  
+Kokeilin ensin omallani `cd`, `mkdir public_html`.  
+`firefox "http://localhost/~alir/"` avasi halutun oletuskotisivun.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/c603f1ba-81be-4737-ab4a-3624cc10b8da)
+
+Valitettavasti kun yritin luoda sudolla toiselle käyttäjälle vastaavaa kansiota `sudo mkdir -m 755 /home/eijavah/public_html` en saanut sitä omalla käyttäjälläni auki `firefox "http://localhost/~eijavah/"`.  
+Vastaan tuli forbidden error. Oletettavasti siis jotain oli luotu, mutta en vain päässyt katsomaan.  
+Yritin käydä eijavah käyttäjällä tutkimassa, mutta en saanut hänellä käynnistettyä firefoxia.
+
+No kirjauduin virtuaalikoneeltani pois ja sisään eijavah käyttäjänä ja pääsin avaamaan firefoxin, mutta näytti vieläkin forbiddenia.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/15d824c6-963b-45ec-b297-7c6a2879be98)
+
+Kävin tutkimassa apachen lokia `sudo tail -f /var/log/apache2/error.log` ja tosiaan polun varrelta jostain puuttui oikeuksia niin alir kuin eijavah käyttäjältäkin. Outoa.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/1b8e3097-7787-4d59-84b6-342ae966074a)
+
+Hiukan tutkittuani vika oli varmaankin käyttäjien kotihakemistoissa; niissä ei ollut muita kuin käyttäjien omat oikeudet.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d8def44a-c054-476a-b301-be6a0eec1717)
+
+`sudo chmod o+r /home/eijavah`  
+`sudo ls -l /home`  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/5988411e-c7a3-46ea-a117-4b754207ecf4)
+
+`firefox "http://localhost/~eijavah/"`  
+Ei toiminut vieläkään.  
+`sudo chmod go+rx /home/eijavah`  
+`firefox "http://localhost/~eijavah/"`  
+Nyt toimi.
+Sama toimenpide muille käyttäjille siis. Tämän ratkaisun tietoturvallisuudesta en ole ollenkaan tietoinen. :)  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d6445587-6902-409d-ba39-2cd6a14da0f7)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/c60851c9-2c6d-4ee3-81d1-2d5ff97ca01d)
+
+Sitten jokaiselle käyttäjälle public_html kansioon index.html tiedosto johon html5 näkymään heidän käyttäjätunnuksensa.  
+Tähän olisi ollut nopeampia tapoja jos osaisi, mutta tein sen käsin. Ehkä opettelen tekemään tämän nopeammin "omalla ajallani".  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/fc133e04-e97e-4122-a8e5-f2a652bcc3f4)
+
+Tässä vaiheessa oli vajaa 15min aikaa ennen palautusta. Ajattelin katsoa kuinka pitkälle pääsen name based virtual hostingissa.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/ac1287e4-4cd0-4330-ac4f-4e41db806b3b)
+
+---------------------------------------------- AIKA LOPPUI -----------------------------------------------------
+
+
+
+
+
+## g) Virtuaalikone labraa varten
+
+Tämä tehtävä oli käytännössä ensimmäisen kotitehtävän toisinto, joten käytin samoja työkaluja (Oracle VM VirtualBox Manager) ym. kuin siinäkin.  
+debian-live-12.1.0-amd64-xfce.iso oli valmiiksi ladattuna, joten käytin sitä uutta konetta luodessani.  
+Nimesin uuden koneen VirtualBoxissa "DebianTenttikone". Ja laitoin tässä vaiheessa loput tiedot/vaiheet pääosin kuvina säästääkseni aikaa.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/95df42c4-8fb8-4d86-be13-9a628d30428d)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/650c8574-3743-4c9b-aa09-1fccb3db2ba6)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/177f4b67-94c3-433f-8cde-37f8df00034a)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/37bfece6-55f3-42c1-9649-095e1c8a22f2)
+
+Valitsin bootissa live version ja kokeilin netin, hiiren ym. toimivuudet ja käynnistin työpöydältä debian installerin.  
+
+Asennuskieli: American English  
+Location: Helsinki  
+Keyboard: Generic 105-key PC, Finnish Default. Kokeilin ääkkösten toiminnan.  
+Erase disk.  
+Boot loader: Master Boot Record of..  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/b6e76a17-0fbd-4e4a-bd14-13d23498b541)
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/c32852be-f2eb-4e7f-80e8-3a57d8d904ba)
+
+Asennus lähti pyörimään ja kesti jokusen minuutin.  
+
+Pääsin kirjautumaan koneelle.  
+Meinasin ensin asentaa guest additionit parempaa resoluutiota varten, mutta en ollut varma onko se vielä sallittua, joten koitan muistaa sen tentin alussa.  
+Suoritin terminaalissa `sudo apt-get update` ja `sudo apt-get -y install ufw` sekä tämän jälkeen `sudo ufw enable`, jonka jälkeen suljin terminaalin.  
+Kävin vielä testaamassa firefoxin toimivuuden osoitteessa terokarvinen.com ja toimi. Sitten suljin virtuaalikoneen ja palasin kotitehtävän f) osioon.  
 
 
 
@@ -336,6 +491,11 @@ Cooper M. 2014. Advanced Bash-Scripting Guide. An in-depth exploration of the ar
 Luettavissa: https://tldp.org/LDP/abs/html/  
 Luettu 07.10.2023  
 
+HowToGeek. How to Use Pass, a Command-Line Password Manager for Linux Systems.  
+Luettavissa: https://www.howtogeek.com/devops/how-to-use-pass-a-command-line-password-manager-for-linux-systems/  
+Luettu 09.10.2023  
 
-Luettavissa: 
-Luettu 07.10.2023  
+kpcli - A command line interface to KeePass database files.  
+Luettavissa: https://kpcli.sourceforge.io/  
+Luettu 09.10.2023  
+
