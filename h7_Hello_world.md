@@ -1,4 +1,4 @@
-![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/a7c607ed-9430-4655-8939-fc8eadbd9d0e)# Kotitehtäväraportti h7
+# Kotitehtäväraportti h7
 
 Tähän se kaikki sitten kulminoituu. Tässä kotitehtäväraportissa tuli tehtyä vaikka ja mitä. Paljon jäi myös tekemättä. 
 
