@@ -1,6 +1,6 @@
 # Kotitehtäväraportti h7
 
-_Tähän se kaikki sitten kulminoituu. Tässä kotitehtäväraportissa..._  
+Tähän se kaikki sitten kulminoituu. Tässä kotitehtäväraportissa tuli tehtyä vaikka ja mitä. Paljon jäi myös tekemättä. 
 
 ## x) Läksyjen linkit
 [h1_OmaLinux](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/h1_OmaLinux.md "Alin eka repo ja rapsa")  
