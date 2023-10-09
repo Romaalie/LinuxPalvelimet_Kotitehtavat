@@ -412,6 +412,12 @@ Tässä vaiheessa oli vajaa 15min aikaa ennen palautusta. Ajattelin katsoa kuink
 
 ---------------------------------------------- AIKA LOPPUI -----------------------------------------------------
 
+---------------------- Teen tähän vähän merkintää mikä väli on tehty palautusajan loppumisen jälkeen -----------
+
+Blaa blaa lounastauko blöö.
+
+--------------------- Tästä eteenpäin oli tehty ajallaan -------------------------------------------------------
+
 
 
 
@@ -479,12 +485,12 @@ geeksforgeeks. gcc command in Linux with examples.
 Luettavissa: https://www.geeksforgeeks.org/gcc-command-in-linux-with-examples/  
 Luettu 07.10.2023  
 
-StackOverflow. Is bash a programming language?.
-Luettavissa: https://stackoverflow.com/questions/28693737/is-bash-a-programming-language
+StackOverflow. Is bash a programming language?.  
+Luettavissa: https://stackoverflow.com/questions/28693737/is-bash-a-programming-language  
 Luettu 07.10.2023  
 
-ruby-lang.org. About ruby.
-Luettavissa: https://www.ruby-lang.org/en/about/
+ruby-lang.org. About ruby.  
+Luettavissa: https://www.ruby-lang.org/en/about/  
 Luettu 07.10.2023  
 
 Cooper M. 2014. Advanced Bash-Scripting Guide. An in-depth exploration of the art of shell scripting.  
