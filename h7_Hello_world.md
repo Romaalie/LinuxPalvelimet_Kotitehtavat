@@ -9,7 +9,7 @@ _Tähän se kaikki sitten kulminoituu. Tässä kotitehtäväraportissa..._
 [h4 Maailma kuulee](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/h4%20Maailma%20kuulee.md "Vaan eipä ole enää...")  
 [h5_Nimittain](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/h5_Nimittain.md "Nyt ne nimeämiset nimittäin kuntoon! Eiku nyt on taas hyvä.")  
 [h6_DJ_Ango](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/h6_DJ_Ango.md "Ja taas joku vähän erilainen..")  
-[h7_Hello_world](_Linkki nykyiseen LISÄÄ_ "Pikku metajekku tähän")  
+[h7_Hello_world](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/blob/main/h7_Hello_world.md "Pikku metajekku tähän")  
 
 
 
