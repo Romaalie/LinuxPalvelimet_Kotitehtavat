@@ -472,6 +472,139 @@ Palautin apachen oletussivun johon olin muokannus aiemmin "Default", `sudo a2ens
 `curl localhost` --> "Default".  
 Tämän pidemmälle en valitettavasti tässä asiassa päässyt. Ehkä palaan joskus ongelman pariin, ehkä en.  
 
+Seuraavana aamuna ajattelin kokeilla suoriutua muista vanhan labran tehtävistä.  
+Päivitin paketit `sudo apt-get update` ja latasin pythonin `sudo apt-get -y install ipython3`.  
+Loin kotihakemistooni microlla tiedoston wowstats.py, johon kirjoitin seuraavan:  
+
+```
+#!/usr/bin/env python3
+import os
+
+kayttaja = os.getlogin( )
+print("Hello " + kayttaja)
+
+```
+
+`./wowstats.py` tuotti syötteen "Hello alir".  Nimesin wowstats.py uudelleen pelkäksi wowstats `mv wowstats.py wowstats`. Lisäsin oikeudet `chmod ugo+rx wowstats`.  
+Seuraavaksi siirtin tiedoston /usr/local/bin.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/c7230685-3150-427f-9eab-824f2b82a2e8)
+
+Kävin kokeilemassa toisella käyttäjällä eikä toiminut halutusti. Tulosti "Hello alir".  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/d5ab39dc-7d06-4de8-b6f7-5c65485d968f)
+
+
+Kokeilin toista tapaa:  
+
+```
+#!/usr/bin/env python3
+import getpass as gt
+
+kayttaja = gt.getuser()
+print("Hello " + kayttaja)
+
+```
+
+Tämä toimi paremmin, koska aiempi katsoi koko os käyttäjän, ei pelkkää terminaalin käyttäjää.  
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/0877cef3-e57a-4211-9cb2-5a86954b134c)
+
+Sitten kokeilin metapaketin luontia.  
+`sudo apt-get -y install equivs`, `cd`, `equivs-control kurssikuru-coding.cfg`, `micro kurssikuru-coding.cfg`, `cat kurssikuru-coding.cfg`
+
+```
+### Commented entries have reasonable defaults.
+### Uncomment to edit them.
+# Source: <source package name; defaults to package name>
+Section: misc
+Priority: optional
+# Homepage: <enter URL here; no default>
+Standards-Version: 3.9.2
+
+Package: kurssikuru-coding
+# Version: 0.1
+# Maintainer: Your Name <yourname@example.com>
+# Pre-Depends: <comma-separated list of packages>
+# Depends: git, ipython3, meld, gedit
+# Recommends: <comma-separated list of packages>
+# Suggests: <comma-separated list of packages>
+# Provides: <comma-separated list of packages>
+# Replaces: <comma-separated list of packages>
+# Architecture: all
+# Multi-Arch: <one of: foreign|same|allowed>
+# Copyright: <copyright file; defaults to GPL2>
+# Changelog: <changelog file; defaults to a generic changelog>
+# Readme: <README.Debian file; defaults to a generic one>
+# Extra-Files: <comma-separated list of additional files for the doc directory>
+# Links: <pair of space-separated paths; First is path symlink points at, second is filename of link>
+# Files: <pair of space-separated paths; First is file to include, second is destination>
+#  <more pairs, if there's more than one file to include. Notice the starting space>
+Description: Test package for schoolwork 
+ long description and info
+ .
+ second paragraph
+
+```
+
+`equivs-build kurssikuru-coding.cfg`  
+
+```
+dpkg-buildpackage: info: source package kurssikuru-coding
+dpkg-buildpackage: info: source version 1.0
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by Equivs Dummy Package Generator <alir@localhost.localdomain>
+dpkg-buildpackage: info: host architecture amd64
+ dpkg-source --before-build .
+ debian/rules clean
+dh clean
+   dh_clean
+ debian/rules binary
+dh binary
+   dh_update_autotools_config
+   dh_autoreconf
+   create-stamp debian/debhelper-build-stamp
+   dh_prep
+   dh_auto_install --destdir=debian/kurssikuru-coding/
+   dh_install
+   dh_installdocs
+   dh_installchangelogs
+   dh_perl
+   dh_link
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_missing
+   dh_installdeb
+   dh_gencontrol
+   dh_md5sums
+   dh_builddeb
+dpkg-deb: building package 'kurssikuru-coding' in '../kurssikuru-coding_1.0_all.deb'.
+ dpkg-genbuildinfo --build=binary -O../kurssikuru-coding_1.0_amd64.buildinfo
+ dpkg-genchanges --build=binary -O../kurssikuru-coding_1.0_amd64.changes
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source --after-build .
+dpkg-buildpackage: info: binary-only upload (no source included)
+
+The package has been created.
+Attention, the package has been created in the current directory,
+not in ".." as indicated by the message above!
+```
+
+`apt search gdebi`, `sudo apt-get -y install gdebi-core`  
+`sudo gdebi kurssikuru-coding_1.0_all.deb`  
+
+En osaa kertoa tämän toiminnallisuudesta juurikaan. gdebi asentaa ymmärtääkseni paikallisia metapaketteja vs apt muualta.
+
+![kuva](https://github.com/Romaalie/LinuxPalvelimet_Kotitehtavat/assets/143311643/9b654dbf-82f4-4fac-8ad7-ab9544490816)
+
+Yritin etsiä `man gedit`, mutta ilmeisesti paketti ei ollut asentunut.  
+`man git` sen sijaan toimi.  
+`man meld` ei toiminut.  
+
+Siinäpä se labra sitten taisi ollakin. Eihän se nyt ihan nappiin kaikin puolin mennyt, joten melkoinen tuuri saisi käydä tulevan tentin kanssa jos kaikki menisi nappiin.
+Seuraavaksi siirryin kertaamaan hiukan javaa Ohjelmointi 1 tenttiä varten.  
+
 ## _Tästä eteenpäin oli tehty ajallaan._
 
 --------------------------------------------------------------------------------------------------------------------------------------
